@@ -31,7 +31,7 @@ namespace GA_SocialInteractions {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.RemoveAt(randomIndex);
 
-                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategie, getIndividual(z).strategie);
+                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategie, getIndividual(randomIndex).strategie);
                 Individual temp = new Individual(getIndividual(i).chromosome, getIndividual(i).strategie, value);
                 population[i] = temp;
             }
@@ -97,7 +97,7 @@ namespace GA_SocialInteractions {
                 permutation[randomValue] = temp;
             }
             //TODO: wlasciwy crossover - nalezy zamieniac population[perm[0]] z population[perm[1]],
-            //population[perm[2]] z population[perm[3]] itd - chyba ze on jest jakis specjalny?
+            //population[perm[2]] z population[perm[3]] itd - chyba ze ten crosss ma byc jakis specjalny?
             return offspring;
         }
         

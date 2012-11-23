@@ -28,6 +28,7 @@ namespace GA_SocialInteractions
 
         private GA_GT() { }
 
+        //methods shouldn't have more than 5 arguments... Game class needed but now i don't know how it should look like
         public GA_GT(int epochs, Knapsack knapsack, int N, int gm, double wga, double wgt, double chd, double chr, double cr, double mr)
         {
             this.numberOfEpochs = epochs;

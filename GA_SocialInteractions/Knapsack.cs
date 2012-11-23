@@ -16,11 +16,12 @@ namespace GA_SocialInteractions
         int[][] weights;            // wagi przedmiotow
         int[] constraints;          // ograniczenia wagowe plecakow
 
-        public Knapsack(int[][] weights, int[] constraints, int numberOfKnapsacks, int numberOfWeights)
+        public Knapsack(int[][] weights, int[] constraints)
         {
-            this.numberOfWeights = numberOfWeights;
-            this.numberOfKnapsacks = weights.Length;
             this.weights = weights;
+
+            this.numberOfWeights = weights[0].Length;
+            this.numberOfKnapsacks = weights.Length;
 
             for (int i = 0; i < numberOfKnapsacks; i++)
             {
