@@ -28,10 +28,10 @@ namespace GA_SocialInteractions {
             this.fitness = fitness;
         }
 
-
         // strategy1 - strategia wlasna osobnika, strategy2 - strategia drugiego z osobnikow
         // true = cooperator, false = cheater
-        public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) {
+        public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) 
+        {
             // TODO: wszystko
             return 0;
         }

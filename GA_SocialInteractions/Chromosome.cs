@@ -15,11 +15,12 @@ namespace GA_SocialInteractions {
 
         public Chromosome(int size)
         {
+            this.gens = new bool[size];
             do
             {
                 for (int j = 0; j < size; j++)
                 {
-                    gens[j] = Convert.ToBoolean(GA_GT.random.Next() % 2);
+                    this.gens[j] = Convert.ToBoolean(GA_GT.random.Next() % 2);
                 }
             } while (!IsFeasible());
         }

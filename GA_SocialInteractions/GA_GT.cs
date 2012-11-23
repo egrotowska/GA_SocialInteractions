@@ -9,11 +9,10 @@ namespace GA_SocialInteractions
     {
         int numberOfEpochs;         // liczba epok
         int chromosomeLength;                      // dlugosc chromosomu (liczba przedmiotow)
-        int numberOfKnapsacks;                      // liczba plecakow
         int populationSize;                      // liczebnosc populacji
         int gameModel;              // model z teorii gier
-        int[][] weights;            // wagi przedmiotow
-        int[] constraints;          // ograniczenia wagowe plecakow
+
+        Knapsack knapsack;
 
                                     // w paperze oznaczone:
         double weightGA;            // beta_GA
@@ -29,38 +28,26 @@ namespace GA_SocialInteractions
 
         private GA_GT() { }
 
-        public GA_GT(int epochs, int[][] weights, int[] constraints, int N, int gm, double wga, double wgt, double chd, double chr, double cr, double mr)
+        public GA_GT(int epochs, Knapsack knapsack, int N, int gm, double wga, double wgt, double chd, double chr, double cr, double mr)
         {
             this.numberOfEpochs = epochs;
-
-            this.weights = weights;
-            this.numberOfKnapsacks = weights.Length;
-            this.chromosomeLength = weights[0].Length;
-
-            for (int i = 0; i < numberOfKnapsacks; i++)
-            {
-                if (weights[i].Length != chromosomeLength)
-                    throw new Exception("Argument exception: weights");
-            }
-
-            this.constraints = constraints;
-
-            if (constraints.Length != numberOfKnapsacks)
-                throw new Exception("Argument exception: constraints");
+            this.knapsack = knapsack;
+            this.chromosomeLength = knapsack.NumberOfWeights;
 
             this.populationSize = N;
             this.gameModel = gm;
-            this.weightGA  = wga;
-            this.weightGT  = wgt;
+            this.weightGA = wga;
+            this.weightGT = wgt;
             this.cheatingDegree = chd;
-            this.cheaterRate    = chr;
-            this.crossoverRate  = cr;
-            this.mutationRate   = mr;
+            this.cheaterRate = chr;
+            this.crossoverRate = cr;
+            this.mutationRate = mr;
         }
 
         public Individual RunGA_GT()
         {
             population = new Population();
+            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
