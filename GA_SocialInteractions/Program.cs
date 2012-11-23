@@ -9,6 +9,7 @@ namespace GA_SocialInteractions
     {
         static void Main(string[] args)
         {
+            Console.Read();
         }
     }
 }
