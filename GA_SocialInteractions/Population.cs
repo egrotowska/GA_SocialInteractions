@@ -21,12 +21,12 @@ namespace GA_SocialInteractions {
         {
             List<int> unused = new List<int>();
 
-            for (int i = 0; i < population.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 unused.Add(i);
             }
 
-            for (int i = 0; i < population.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.RemoveAt(randomIndex);
@@ -39,7 +39,7 @@ namespace GA_SocialInteractions {
 
         public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize)
         {
-            int numberOfCheaters = (int)(population.Count * cheaterRate);
+            int numberOfCheaters = (int)(populationSize * cheaterRate);
 
             for (int i = 0; i < populationSize; i++) {
                 Chromosome chromosome = new Chromosome(chromosomeSize);
