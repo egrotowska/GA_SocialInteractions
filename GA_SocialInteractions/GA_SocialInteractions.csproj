@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosome.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GA_GT.cs" />
     <Compile Include="Individual.cs" />
     <Compile Include="Knapsack.cs" />
