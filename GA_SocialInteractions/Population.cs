@@ -88,7 +88,9 @@ namespace GA_SocialInteractions {
             {
                 permutation[i] = i;
             }
-            for (int i = 0; i < parents.Count; i++) //random permutation to generate random pairs
+
+            //random permutation to generate random pairs 
+            for (int i = 0; i < parents.Count; i++) 
             {                                           
                 int randomValue = GA_GT.random.Next() % parents.Count - 1; //it should be 0 to Count-1
                 
@@ -96,8 +98,8 @@ namespace GA_SocialInteractions {
                 permutation[i] = permutation[randomValue];
                 permutation[randomValue] = temp;
             }
-            //TODO: wlasciwy crossover - nalezy zamieniac population[perm[0]] z population[perm[1]],
-            //population[perm[2]] z population[perm[3]] itd - chyba ze ten crosss ma byc jakis specjalny?
+            //random pairs of indexes are perm[0] and perm[count-1], perm[1] and perm[count-2] and so on
+            //TODO: crossover
             return offspring;
         }
         

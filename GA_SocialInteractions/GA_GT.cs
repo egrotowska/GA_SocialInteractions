@@ -8,12 +8,11 @@ namespace GA_SocialInteractions
     class GA_GT
     {
         int numberOfEpochs;         // liczba epok
-        int chromosomeLength;                      // dlugosc chromosomu (liczba przedmiotow)
-        int populationSize;                      // liczebnosc populacji
+        int chromosomeLength;       // dlugosc chromosomu (liczba przedmiotow)
+        int populationSize;         // liczebnosc populacji
         int gameModel;              // model z teorii gier
 
         Knapsack knapsack;
-
                                     // w paperze oznaczone:
         double weightGA;            // beta_GA
         double weightGT;            // beta_GT
@@ -24,7 +23,7 @@ namespace GA_SocialInteractions
 
         Population population;
 
-        public static Random random = new Random();
+        public static Random random = new Random(); // www.dotnetperls.com/random
 
         private GA_GT() { }
 
