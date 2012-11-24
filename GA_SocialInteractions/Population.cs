@@ -92,32 +92,14 @@ namespace GA_SocialInteractions {
             //random permutation to generate random pairs 
             for (int i = 0; i < parents.Count; i++) 
             {                                           
-                int randomValue = GA_GT.random.Next() % parents.Count;
+                int randomValue = GA_GT.random.Next() % parents.Count - 1; //it should be 0 to Count-1
                 
                 int temp = permutation[i];
                 permutation[i] = permutation[randomValue];
                 permutation[randomValue] = temp;
             }
-            
-            int random_gens1 = GA_GT.random.Next() % parents.getChromosomeSize();
-            int random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
-
-            while (random_gens1 == random_gens2) {
-                random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
-            }
-
-            if (random_gens2 < random_gens1)
-            {
-                Swap<int>(random_gens1, random_gens2);
-            }
-
-            for (int i = 0; i < parents.Count / 2; i++)
-            {
-                for (int j = random_gens1; j < random_gens2; j++)
-                {
-                    Swap<bool>(parents.getIndividual(permutation[i]).getGen(j), parents.getIndividual(permutation[parents.Count - 1 - i]).getGen(j));
-                }
-            }
+            //random pairs of indexes are perm[0] and perm[count-1], perm[1] and perm[count-2] and so on
+            //TODO: crossover
             return offspring;
         }
         
@@ -128,11 +110,6 @@ namespace GA_SocialInteractions {
         public Individual getIndividual(int i)
         {
             return population[i];
-        }
-
-        public int getChromosomeSize()
-        {
-            return population[0].chromosome.Count;
         }
 
         public void Add(Individual individual) {
@@ -155,15 +132,5 @@ namespace GA_SocialInteractions {
             else
                 return -1;
         }
-
-        static void Swap<T>(T lhs, T rhs)
-        {
-            T temp;
-            temp = lhs;
-            lhs = rhs;
-            rhs = temp;
-        }
     }
 }
-
-
