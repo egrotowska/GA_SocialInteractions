@@ -7,28 +7,24 @@ namespace GA_SocialInteractions
 {
     interface Game
     {
-        double cooperatorCooperatorPayoff;
-        double cooperatorDefectorPayoff;
-        double defectorCooperatorPayoff;
-        double defectorDefectorPayoff;
 
-        public double cooperatorCooperatorPayoff
+        double cooperatorCooperatorPayoff
         {
             get;
         }
-        public double cooperatorDefectorPayoff
+        double cooperatorDefectorPayoff
         {
             get;
         }
-        public double defectorCooperatorPayoff
+        double defectorCooperatorPayoff
         {
             get;
         }
-        public double defectorDefectorPayoff
+        double defectorDefectorPayoff
         {
             get;
         }
 
-        public void generatePayoffs();
+        void generatePayoffs();
     }
 }
