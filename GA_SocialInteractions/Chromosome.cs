@@ -31,5 +31,10 @@ namespace GA_SocialInteractions {
             // TODO: wszystko
             return true;
         }
+
+        public bool getGen(int i)
+        {
+            return gens[i];
+        }
     }
 }

@@ -10,11 +10,13 @@ namespace GA_SocialInteractions {
             get { return chromosome; }
             set { this.chromosome = value; }
         }
+
         public bool strategie
         {
             get { return strategie; }
             set { this.strategie = value; }
         }
+
         public double fitness
         {
             get { return fitness; }
@@ -34,6 +36,11 @@ namespace GA_SocialInteractions {
         {
             // TODO: wszystko
             return 0;
+        }
+
+        public bool getGen(int i)
+        {
+            return chromosome.getGen(i);
         }
     }
 }
