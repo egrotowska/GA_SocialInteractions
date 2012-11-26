@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GA_SocialInteractions {
     class Population {
-        public List<Individual> population;
+        private List<Individual> population;
 
         public int Count 
         {
@@ -28,21 +28,26 @@ namespace GA_SocialInteractions {
 
             for (int i = 0; i < Count; i++)
             {
+                //if (!unused.Contains(i))    // should each individual be paired twice?
+                //    continue;
+
+                //unused.Remove(i);     // so we can't pair the individual with itself ?
+
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.RemoveAt(randomIndex);
 
                 double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategie, getIndividual(randomIndex).strategie);
-                Individual temp = new Individual(getIndividual(i).chromosome, getIndividual(i).strategie, value);
-                population[i] = temp;
+                population[i] = new Individual(getIndividual(i).chromosome, getIndividual(i).strategie, value);
             }
         }
 
-        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize)
+        // needs knapsack argument to create a feasible chromosome
+        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize, Knapsack knapsack)
         {
             int numberOfCheaters = (int)(populationSize * cheaterRate);
 
             for (int i = 0; i < populationSize; i++) {
-                Chromosome chromosome = new Chromosome(chromosomeSize);
+                Chromosome chromosome = new Chromosome(chromosomeSize, knapsack);
 
                 Individual temp;
                 if (i < numberOfCheaters) 
@@ -121,17 +126,33 @@ namespace GA_SocialInteractions {
             return offspring;
         }
         
-        public void Mutation() {
-            // TODO: wszystko
+        public void Mutation() 
+        {
+            int chromosomeSize = getChromosomeSize();
+
+            for (int i = 0; i < population.Count; i++)
+            {
+                for (int j = 0; j < chromosomeSize; j++)
+                {
+                    if (GA_GT.random.NextDouble() < 0.5)  // should be: < mutationRate, but we don't have the access to the variable
+                        population[i].MutateGene(j);
+                }
+            }
         }
 
         public Individual getIndividual(int i)
         {
+            if (population.Count < i + 1)
+                throw new IndexOutOfRangeException("getIndividual");
+
             return population[i];
         }
 
         public int getChromosomeSize()
         {
+            if (population.Count < 1)
+                throw new IndexOutOfRangeException("getChromosomeSize");
+
             return population[0].chromosome.Count;
         }
 

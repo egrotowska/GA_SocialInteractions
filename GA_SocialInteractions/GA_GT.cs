@@ -28,6 +28,8 @@ namespace GA_SocialInteractions
         private GA_GT() { }
 
         //methods shouldn't have more than 5 arguments... Game class needed but now i don't know how it should look like
+        //
+        // know it looks awful but could be useful while testing. we could change the arguments in a loop in Main and wouldn't have to do it by hand
         public GA_GT(int epochs, Knapsack knapsack, int N, int gm, double wga, double wgt, double chd, double chr, double cr, double mr)
         {
             this.numberOfEpochs = epochs;
@@ -47,7 +49,7 @@ namespace GA_SocialInteractions
         public Individual RunGA_GT()
         {
             population = new Population();
-            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
+            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize, knapsack);
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
