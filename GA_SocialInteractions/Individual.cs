@@ -42,5 +42,10 @@ namespace GA_SocialInteractions {
         {
             return chromosome.getGen(i);
         }
+
+        public void MutateGene(int i)
+        {
+            chromosome.MutateGene(i);
+        }
     }
 }

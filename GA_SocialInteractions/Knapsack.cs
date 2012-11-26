@@ -13,6 +13,11 @@ namespace GA_SocialInteractions
         {
             get { return numberOfWeights; }
         }
+
+        public int NumberOfKnapsacks
+        {
+            get { return numberOfKnapsacks; }
+        }
         int[][] weights;            // wagi przedmiotow
         int[] constraints;          // ograniczenia wagowe plecakow
 
@@ -33,6 +38,16 @@ namespace GA_SocialInteractions
 
             if (constraints.Length != numberOfKnapsacks)
                 throw new Exception("Argument exception: constraints");
+        }
+
+        public int GetWeight(int i, int j)
+        {
+            return weights[i][j];
+        }
+
+        public int GetConstraint(int i)
+        {
+            return constraints[i];
         }
     }
 }
