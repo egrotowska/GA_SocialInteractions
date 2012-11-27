@@ -10,7 +10,7 @@ namespace GA_SocialInteractions
         public static int numberOfEpochs;         // liczba epok
         public static int chromosomeLength;       // dlugosc chromosomu (liczba przedmiotow)
         public static int populationSize;         // liczebnosc populacji
-        public static int gameModel;              // model z teorii gier
+        public static Game gameModel;             // model z teorii gier
 
         public static Knapsack knapsack;
                                                   // w paperze oznaczone:
@@ -21,14 +21,19 @@ namespace GA_SocialInteractions
         public static double crossoverRate;       // p_c
         public static double mutationRate;        // p_m
 
+        public static double maxFitness;          // f^max
+        public static double maxPayoff;           // delta f^max
+
         Population population;
 
-        public static Random random = new Random(); // www.dotnetperls.com/random
+        public static Random random = new Random();
 
         public Individual RunGA_GT()
         {
             population = new Population();
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
+
+            maxPayoff = gameModel.maxPayoff;
 
             Console.WriteLine("Random population:");
             population.Show();
@@ -36,7 +41,7 @@ namespace GA_SocialInteractions
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
-                population.Evaluation();
+                maxFitness = population.Evaluation();
                 
                 Population parents = population.TournamentSelection();
                 Console.WriteLine("parents before");

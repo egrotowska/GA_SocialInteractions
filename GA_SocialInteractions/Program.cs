@@ -39,7 +39,7 @@ namespace GA_SocialInteractions
             GA_GT.numberOfEpochs = 100;
             GA_GT.chromosomeLength = 10;
             GA_GT.populationSize = 10;
-            GA_GT.gameModel = 0;
+            GA_GT.gameModel = new PrisonersDilemma();
             GA_GT.knapsack = knapsack;
             GA_GT.weightGA = 0.1;
             GA_GT.weightGT = 0.1;

@@ -22,9 +22,10 @@ namespace GA_SocialInteractions {
             this.population = new List<Individual>(p.population);
         }
 
-        public void Evaluation() 
+        public double Evaluation() 
         {
             List<int> unused = new List<int>();
+            double newMax = GA_GT.maxFitness;
 
             for (int i = 0; i < Count; i++)
             {
@@ -42,8 +43,14 @@ namespace GA_SocialInteractions {
                 unused.Remove(randomIndex);
 
                 double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+                if (value > newMax)
+                {
+                    newMax = value;
+                }
                 population[i] = new Individual(getIndividual(i).chromosome, getIndividual(i).strategy, value);
             }
+
+            return newMax;
         }
 
         public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize)

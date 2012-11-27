@@ -7,7 +7,6 @@ namespace GA_SocialInteractions {
     class Chromosome {
 
         bool[] genes;
-        bool ifCheater;
 
         public int Count
         {

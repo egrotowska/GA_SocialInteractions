@@ -35,11 +35,75 @@ namespace GA_SocialInteractions {
             this.fitness_ = fitness;
         }
 
-        // strategy1 - strategia wlasna osobnika, strategy2 - strategia drugiego z osobnikow
-        // true = cooperator, false = cheater
+        // for SINGLE knapsack problem - not sure how to do it for a multidimensional problem
+        // ...and not sure if it should be done like this at all :P so i'll leave it until we discuss it
         public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) 
         {
-            // TODO: wszystko
+            if (strategy1)
+            {
+                if (strategy2)
+                {
+                    if (chromosome.IsFeasible())
+                    {
+                        double sum = 0.0;
+                        for (int i = 0; i < chromosome.Count; i++)
+                        {
+                            sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) : 0.0;
+                        }
+
+                        return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
+                    }
+
+                    else
+                    {
+                        double sum = 0.0;
+                        for (int i = 0; i < chromosome.Count; i++)
+                        {
+                            sum += chromosome[i] ? GA_GT.knapsack.GetWeight(0, i) : 0.0;
+                        }
+
+                        return GA_GT.weightGA * (GA_GT.knapsack.GetConstraint(0) - sum) / GA_GT.maxFitness 
+                             + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
+                    }
+                }
+
+                else
+                {
+                    if (chromosome.IsFeasible())
+                    {
+                    }
+
+                    else
+                    {
+                    }
+                }
+            }
+
+            else
+            {
+                if (strategy2)
+                {
+                    if (chromosome.IsFeasible())
+                    {
+                    }
+
+                    else
+                    {
+                    }
+                }
+
+                else
+                {
+                    if (chromosome.IsFeasible())
+                    {
+                    }
+
+                    else
+                    {
+                    }
+                }
+            }
+
             return 0;
         }
 
