@@ -7,68 +7,69 @@ namespace GA_SocialInteractions
 {
     class GA_GT
     {
-        int numberOfEpochs;         // liczba epok
-        int chromosomeLength;       // dlugosc chromosomu (liczba przedmiotow)
-        int populationSize;         // liczebnosc populacji
-        int gameModel;              // model z teorii gier
+        public static int numberOfEpochs;         // liczba epok
+        public static int chromosomeLength;       // dlugosc chromosomu (liczba przedmiotow)
+        public static int populationSize;         // liczebnosc populacji
+        public static int gameModel;              // model z teorii gier
 
-        Knapsack knapsack;
-                                    // w paperze oznaczone:
-        double weightGA;            // beta_GA
-        double weightGT;            // beta_GT
-        double cheatingDegree;      // tau
-        double cheaterRate;         // alfa
-        double crossoverRate;       // p_c
-        double mutationRate;        // p_m
+        public static Knapsack knapsack;
+                                                  // w paperze oznaczone:
+        public static double weightGA;            // beta_GA
+        public static double weightGT;            // beta_GT
+        public static double cheatingDegree;      // tau
+        public static double cheaterRate;         // alfa
+        public static double crossoverRate;       // p_c
+        public static double mutationRate;        // p_m
 
         Population population;
 
         public static Random random = new Random(); // www.dotnetperls.com/random
 
-        private GA_GT() { }
-
-        //methods shouldn't have more than 5 arguments... Game class needed but now i don't know how it should look like
-        //
-        // know it looks awful but could be useful while testing. we could change the arguments in a loop in Main and wouldn't have to do it by hand
-        public GA_GT(int epochs, Knapsack knapsack, int N, int gm, double wga, double wgt, double chd, double chr, double cr, double mr)
-        {
-            this.numberOfEpochs = epochs;
-            this.knapsack = knapsack;
-            this.chromosomeLength = knapsack.NumberOfWeights;
-
-            this.populationSize = N;
-            this.gameModel = gm;
-            this.weightGA = wga;
-            this.weightGT = wgt;
-            this.cheatingDegree = chd;
-            this.cheaterRate = chr;
-            this.crossoverRate = cr;
-            this.mutationRate = mr;
-        }
-
         public Individual RunGA_GT()
         {
             population = new Population();
-            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize, knapsack);
+            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
+
+            Console.WriteLine("Random population:");
+            population.Show();
+            Console.ReadLine();
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
                 population.Evaluation();
-
+                
                 Population parents = population.TournamentSelection();
-                Population offspring = population.TwoPointsCrossover(parents);
+                Console.WriteLine("parents before");
+                parents.Show();
+                Population offspring = population.TwoPointsCrossover(parents);  // for now, offspring = parents
+                Console.WriteLine("parents after");
+                parents.Show();
+                Console.WriteLine("offspring");
+                offspring.Show();
+
+                Console.ReadLine();
 
                 parents.Sort();
                 offspring.Sort();
 
                 population.Clear();
 
+                // TODO: number of cheaters should be less than a cheater rate? or some other value?
                 for (int i = 0; i < populationSize / 2; i++)
                 {
                     population.Add(parents.getIndividual(i));
                     population.Add(offspring.getIndividual(i));
                 }
+
+                Console.WriteLine("before mutation");
+                population.Show();
+
                 population.Mutation();
+
+                Console.WriteLine("after mutation");
+                population.Show();
+
+                Console.ReadLine();
             }
 
             population.Sort();
