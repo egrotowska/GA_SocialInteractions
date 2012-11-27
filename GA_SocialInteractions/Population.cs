@@ -17,6 +17,11 @@ namespace GA_SocialInteractions {
             this.population = new List<Individual>();
         }
 
+        public Population(Population p)
+        {
+            this.population = new List<Individual>(p.population);
+        }
+
         public void Evaluation() 
         {
             List<int> unused = new List<int>();
@@ -28,26 +33,25 @@ namespace GA_SocialInteractions {
 
             for (int i = 0; i < Count; i++)
             {
-                //if (!unused.Contains(i))    // should each individual be paired twice?
-                //    continue;
+                if (!unused.Contains(i))    // each individual will be paired only once
+                    continue;
 
-                //unused.Remove(i);     // so we can't pair the individual with itself ?
+                unused.Remove(i);           // we won't pair individual with itself
 
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
-                unused.RemoveAt(randomIndex);
+                unused.Remove(randomIndex);
 
-                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategie, getIndividual(randomIndex).strategie);
-                population[i] = new Individual(getIndividual(i).chromosome, getIndividual(i).strategie, value);
+                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+                population[i] = new Individual(getIndividual(i).chromosome, getIndividual(i).strategy, value);
             }
         }
 
-        // needs knapsack argument to create a feasible chromosome
-        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize, Knapsack knapsack)
+        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize)
         {
             int numberOfCheaters = (int)(populationSize * cheaterRate);
 
             for (int i = 0; i < populationSize; i++) {
-                Chromosome chromosome = new Chromosome(chromosomeSize, knapsack);
+                Chromosome chromosome = new Chromosome(chromosomeSize);
 
                 Individual temp;
                 if (i < numberOfCheaters) 
@@ -83,8 +87,9 @@ namespace GA_SocialInteractions {
             return parents;
         }
 
+        // method does nothing because swap doesn't work as it should
         public Population TwoPointsCrossover(Population parents) {
-            Population offspring = new Population();
+            Population offspring = new Population(parents);
             List<int> used = new List<int>();
 
             int[] permutation = new int[parents.Count];
@@ -120,9 +125,10 @@ namespace GA_SocialInteractions {
             {
                 for (int j = random_gens1; j < random_gens2; j++)
                 {
-                    Swap<bool>(parents.getIndividual(permutation[i]).getGen(j), parents.getIndividual(permutation[parents.Count - 1 - i]).getGen(j));
+                    Swap<bool>(offspring.getIndividual(permutation[i])[j], offspring.getIndividual(permutation[offspring.Count - 1 - i])[j]);
                 }
             }
+
             return offspring;
         }
         
@@ -143,7 +149,7 @@ namespace GA_SocialInteractions {
         public Individual getIndividual(int i)
         {
             if (population.Count < i + 1)
-                throw new IndexOutOfRangeException("getIndividual");
+                throw new IndexOutOfRangeException("Population.getIndividual");
 
             return population[i];
         }
@@ -151,7 +157,7 @@ namespace GA_SocialInteractions {
         public int getChromosomeSize()
         {
             if (population.Count < 1)
-                throw new IndexOutOfRangeException("getChromosomeSize");
+                throw new IndexOutOfRangeException("Population.getChromosomeSize");
 
             return population[0].chromosome.Count;
         }
@@ -177,12 +183,22 @@ namespace GA_SocialInteractions {
                 return -1;
         }
 
+        // does nothing ?
         static void Swap<T>(T lhs, T rhs)
         {
             T temp;
             temp = lhs;
             lhs = rhs;
             rhs = temp;
+        }
+
+        public void Show()
+        {
+            for (int i = 0; i < population.Count; i++)
+            {
+                population[i].Show();
+            }
+            Console.WriteLine();
         }
     }
 }
