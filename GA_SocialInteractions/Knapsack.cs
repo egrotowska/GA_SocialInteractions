@@ -8,45 +8,64 @@ namespace GA_SocialInteractions
     class Knapsack
     {
         int numberOfKnapsacks;
-        int numberOfWeights;
-        public int NumberOfWeights
+        int numberOfObjects;
+        public int NumberOfObjects
         {
-            get { return numberOfWeights; }
+            get { return numberOfObjects; }
         }
 
         public int NumberOfKnapsacks
         {
             get { return numberOfKnapsacks; }
         }
-        int[][] weights;            // wagi przedmiotow
-        int[] constraints;          // ograniczenia wagowe plecakow
+        int[][] weights;
+        int[] constraints;
+        int[] values;
 
-        public Knapsack(int[][] weights, int[] constraints)
+        public Knapsack(int[][] weights, int[] values, int[] constraints)
         {
             this.weights = weights;
-
-            this.numberOfWeights = weights[0].Length;
+            this.numberOfObjects = weights[0].Length;
             this.numberOfKnapsacks = weights.Length;
 
             for (int i = 0; i < numberOfKnapsacks; i++)
             {
-                if (weights[i].Length != numberOfWeights)
-                    throw new Exception("Argument exception: weights");
+                if (weights[i].Length != numberOfObjects)
+                    throw new ArgumentException("Knapsack constructor: weights");
             }
+
+            this.values = values;
+
+            if (values.Length != numberOfObjects)
+                throw new ArgumentException("Knapsack constructor: values");
 
             this.constraints = constraints;
 
             if (constraints.Length != numberOfKnapsacks)
-                throw new Exception("Argument exception: constraints");
+                throw new ArgumentException("Knapsack constructor: constraints");
         }
 
         public int GetWeight(int i, int j)
         {
+            if (i + 1 > numberOfKnapsacks || j + 1 > numberOfObjects)
+                throw new ArgumentOutOfRangeException("Knapsack.GetWeight");
+
             return weights[i][j];
+        }
+
+        public int GetValue(int i)
+        {
+            if(i + 1 > numberOfObjects)
+                throw new ArgumentOutOfRangeException("Knapsack.GetValue");
+
+            return values[i];
         }
 
         public int GetConstraint(int i)
         {
+            if (i + 1 > numberOfKnapsacks)
+                throw new ArgumentOutOfRangeException("Knapsack.GetConstraint");
+
             return constraints[i];
         }
     }
