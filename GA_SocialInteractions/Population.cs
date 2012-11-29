@@ -97,45 +97,7 @@ namespace GA_SocialInteractions {
         // method does nothing because swap doesn't work as it should
         public Population TwoPointsCrossover(Population parents) {
             Population offspring = new Population(parents);
-            List<int> used = new List<int>();
-
-            int[] permutation = new int[parents.Count];
-
-            for (int i = 0; i < parents.Count; i++) 
-            {
-                permutation[i] = i;
-            }
-
-            //random permutation to generate random pairs 
-            for (int i = 0; i < parents.Count; i++) 
-            {                                           
-                int randomValue = GA_GT.random.Next() % parents.Count;
-                
-                int temp = permutation[i];
-                permutation[i] = permutation[randomValue];
-                permutation[randomValue] = temp;
-            }
-            
-            int random_gens1 = GA_GT.random.Next() % parents.getChromosomeSize();
-            int random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
-
-            while (random_gens1 == random_gens2) {
-                random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
-            }
-
-            if (random_gens2 < random_gens1)
-            {
-                Swap<int>(random_gens1, random_gens2);
-            }
-
-            for (int i = 0; i < parents.Count / 2; i++)
-            {
-                for (int j = random_gens1; j < random_gens2; j++)
-                {
-                    Swap<bool>(offspring.getIndividual(permutation[i])[j], offspring.getIndividual(permutation[offspring.Count - 1 - i])[j]);
-                }
-            }
-
+            //TODO
             return offspring;
         }
         
@@ -147,7 +109,7 @@ namespace GA_SocialInteractions {
             {
                 for (int j = 0; j < chromosomeSize; j++)
                 {
-                    if (GA_GT.random.NextDouble() < 0.5)  // should be: < mutationRate, but we don't have the access to the variable
+                    if (GA_GT.random.NextDouble() < GA_GT.mutationRate) 
                         population[i].MutateGene(j);
                 }
             }
@@ -188,15 +150,6 @@ namespace GA_SocialInteractions {
                 return 0;
             else
                 return -1;
-        }
-
-        // does nothing ?
-        static void Swap<T>(T lhs, T rhs)
-        {
-            T temp;
-            temp = lhs;
-            lhs = rhs;
-            rhs = temp;
         }
 
         public void Show()
