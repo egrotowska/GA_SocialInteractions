@@ -7,7 +7,7 @@ namespace GA_SocialInteractions
 {
     class Program
     {
-        static void Main(string[] args) // it's random code with random numbers :P
+        static void Main(string[] args)
         {
             int numberOfObjects = 10;
             int numberOfKnapsacks = 1;

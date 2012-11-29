@@ -48,6 +48,7 @@ namespace GA_SocialInteractions {
         public bool this[int i]
         {
 	        get { return genes[i]; }
+            set { genes[i] = value; }
         }
         
         public void MutateGene(int i)

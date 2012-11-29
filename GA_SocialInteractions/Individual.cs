@@ -37,6 +37,7 @@ namespace GA_SocialInteractions {
 
         // for SINGLE knapsack problem - not sure how to do it for a multidimensional problem
         // ...and not sure if it should be done like this at all :P so i'll leave it until we discuss it
+        //uo jezu ile tych ifów :P
         public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) 
         {
             if (strategy1)

@@ -94,10 +94,70 @@ namespace GA_SocialInteractions {
             return parents;
         }
 
-        // method does nothing because swap doesn't work as it should
-        public Population TwoPointsCrossover(Population parents) {
-            Population offspring = new Population(parents);
-            //TODO
+        private int[] generateRandomPairs(int numberOfIndividuals)
+        {
+            int[] permutation = new int[numberOfIndividuals];
+
+            for (int i = 0; i < numberOfIndividuals; i++)
+            {
+                permutation[i] = i;
+            }
+
+            for (int i = 0; i < numberOfIndividuals; i++)
+            {
+                int randomValue = GA_GT.random.Next() % numberOfIndividuals;
+
+                int temp = permutation[i];
+                permutation[i] = permutation[randomValue];
+                permutation[randomValue] = temp;
+            }
+            for (int i = 0; i < numberOfIndividuals; i++)
+            {
+                Console.Write(" {0} ", permutation[i]);
+            }
+            return permutation;
+        }
+
+        private Tuple<Individual, Individual> crossover(Individual ind1, Individual ind2, int index1, int index2)
+        {
+            for (int i = index1; i < index2; i++)
+            {
+                bool temp = ind1.chromosome[i];
+                ind1.chromosome[i] = ind2.chromosome[i];
+                ind2.chromosome[i] = temp;
+            }
+            return new Tuple<Individual, Individual>(ind1, ind2);
+        }
+
+        //not tested
+        public Population TwoPointsCrossover(Population parents)
+        {
+            Population offspring = new Population();
+            List<int> used = new List<int>();
+
+            int[] permutation = generateRandomPairs(parents.Count);
+            int random_gens1 = GA_GT.random.Next() % parents.getChromosomeSize();
+            int random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
+
+            while (random_gens1 == random_gens2)
+            {
+                random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
+            }
+
+            if (random_gens2 < random_gens1)
+            {
+                int temp = random_gens1;
+                random_gens1 = random_gens2;
+                random_gens2 = temp;
+            }
+
+            for (int i = 0; i < parents.Count / 2; i++)
+            {
+                Tuple<Individual, Individual> children = crossover(parents.getIndividual(permutation[i]), parents.getIndividual(permutation[parents.Count - 1 - i]), random_gens1, random_gens2);
+                offspring.Add(children.Item1);
+                offspring.Add(children.Item2);
+            } 
+            //offspring are not in the same order as parents - don't know if it is important
             return offspring;
         }
         
