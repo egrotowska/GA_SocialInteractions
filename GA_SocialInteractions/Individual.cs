@@ -47,7 +47,6 @@ namespace GA_SocialInteractions {
 
                         return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
                     }
-
                     else
                     {
                         double sum = 0.0;
@@ -61,43 +60,79 @@ namespace GA_SocialInteractions {
                     }
         }
 
-        private double fitnessCooperativeCheater(Chromosome chromosome)
+        private double fitnessCooperativeDefector(Chromosome chromosome)
         {
-            //TODO
+            double sum = 0.0;
             if (chromosome.IsFeasible())
             {
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) : 0.0;
+                }
+                return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.cooperatorDefectorPayoff / GA_GT.maxPayoff;
             }
-
             else
             {
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? GA_GT.knapsack.GetWeight(0, i) : 0.0;
+                }
+
+                return GA_GT.weightGA * (GA_GT.knapsack.GetConstraint(0) - sum) / GA_GT.maxFitness
+                     + GA_GT.weightGT * GA_GT.gameModel.cooperatorDefectorPayoff / GA_GT.maxPayoff;
             }
-            return 0;
         }
 
-        private double fitnessCheaterCooperative(Chromosome chromosome)
+        private double fitnessDefectorCooperative(Chromosome chromosome)
         {
-            //TODO
+            double deltaV = GA_GT.cheatingDegree / 100;
+            double deltaW = GA_GT.cheatingDegree / 100;
+            double sum = 0.0;
+            
             if (chromosome.IsFeasible())
             {
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) + deltaV : 0.0;
+                }
+                return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.defectorCooperatorPayoff / GA_GT.maxPayoff;
             }
-
             else
             {
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? GA_GT.knapsack.GetWeight(0, i) - deltaW : 0.0;
+                }
+
+                return GA_GT.weightGA * (GA_GT.knapsack.GetConstraint(0) - sum) / GA_GT.maxFitness
+                     + GA_GT.weightGT * GA_GT.gameModel.defectorCooperatorPayoff / GA_GT.maxPayoff;
             }
-            return 0;
         }
 
-        private double fitnessCheaterCheater(Chromosome chromosome)
+        private double fitnessDefectorDefector(Chromosome chromosome)
         {
-            //TODO
+            double deltaV = GA_GT.cheatingDegree / 100;
+            double deltaW = GA_GT.cheatingDegree / 100;
+            double sum = 0.0;
+
             if (chromosome.IsFeasible())
             {
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) + deltaV : 0.0;
+                }
+                return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.defectorDefectorPayoff / GA_GT.maxPayoff;
             }
-
             else
             {
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? GA_GT.knapsack.GetWeight(0, i) - deltaW : 0.0;
+                }
+
+                return GA_GT.weightGA * (GA_GT.knapsack.GetConstraint(0) - sum) / GA_GT.maxFitness
+                     + GA_GT.weightGT * GA_GT.gameModel.defectorDefectorPayoff / GA_GT.maxPayoff;
             }
-            return 0;
         }
 
         public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) 
@@ -107,20 +142,21 @@ namespace GA_SocialInteractions {
                 if (strategy2)
                 {
                     return fitnessCooperativeCooperative(chromosome);
-                } else
+                } 
+                else
                 {
-                    return fitnessCooperativeCheater(chromosome);
+                    return fitnessCooperativeDefector(chromosome);
                 }
-            } else
+            } 
+            else
             {
                 if (strategy2)
                 {
-                    return fitnessCheaterCooperative(chromosome);
+                    return fitnessDefectorCooperative(chromosome);
                 }
-
                 else
                 {
-                    return fitnessCheaterCheater(chromosome);
+                    return fitnessDefectorDefector(chromosome);
                 }
             }
         }

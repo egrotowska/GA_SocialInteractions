@@ -7,7 +7,6 @@ namespace GA_SocialInteractions
 {
     public interface Game
     {
-
         double cooperatorCooperatorPayoff
         {
             get;
