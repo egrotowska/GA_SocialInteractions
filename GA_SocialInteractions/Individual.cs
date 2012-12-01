@@ -35,16 +35,9 @@ namespace GA_SocialInteractions {
             this.fitness_ = fitness;
         }
 
-        // for SINGLE knapsack problem - not sure how to do it for a multidimensional problem
-        // ...and not sure if it should be done like this at all :P so i'll leave it until we discuss it
-        //uo jezu ile tych ifów :P
-        public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) 
+        private double fitnessCooperativeCooperative(Chromosome chromosome) 
         {
-            if (strategy1)
-            {
-                if (strategy2)
-                {
-                    if (chromosome.IsFeasible())
+              if (chromosome.IsFeasible())
                     {
                         double sum = 0.0;
                         for (int i = 0; i < chromosome.Count; i++)
@@ -66,46 +59,70 @@ namespace GA_SocialInteractions {
                         return GA_GT.weightGA * (GA_GT.knapsack.GetConstraint(0) - sum) / GA_GT.maxFitness 
                              + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
                     }
-                }
+        }
 
-                else
-                {
-                    if (chromosome.IsFeasible())
-                    {
-                    }
-
-                    else
-                    {
-                    }
-                }
+        private double fitnessCooperativeCheater(Chromosome chromosome)
+        {
+            //TODO
+            if (chromosome.IsFeasible())
+            {
             }
 
             else
             {
+            }
+            return 0;
+        }
+
+        private double fitnessCheaterCooperative(Chromosome chromosome)
+        {
+            //TODO
+            if (chromosome.IsFeasible())
+            {
+            }
+
+            else
+            {
+            }
+            return 0;
+        }
+
+        private double fitnessCheaterCheater(Chromosome chromosome)
+        {
+            //TODO
+            if (chromosome.IsFeasible())
+            {
+            }
+
+            else
+            {
+            }
+            return 0;
+        }
+
+        public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) 
+        {
+            if (strategy1)
+            {
                 if (strategy2)
                 {
-                    if (chromosome.IsFeasible())
-                    {
-                    }
-
-                    else
-                    {
-                    }
+                    return fitnessCooperativeCooperative(chromosome);
+                } else
+                {
+                    return fitnessCooperativeCheater(chromosome);
+                }
+            } else
+            {
+                if (strategy2)
+                {
+                    return fitnessCheaterCooperative(chromosome);
                 }
 
                 else
                 {
-                    if (chromosome.IsFeasible())
-                    {
-                    }
-
-                    else
-                    {
-                    }
+                    return fitnessCheaterCheater(chromosome);
                 }
             }
-
-            return 0;
         }
 
         public bool this[int i]

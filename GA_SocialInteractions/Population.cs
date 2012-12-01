@@ -34,10 +34,10 @@ namespace GA_SocialInteractions {
 
             for (int i = 0; i < Count; i++)
             {
-                if (!unused.Contains(i))    // each individual will be paired only once
+                if (!unused.Contains(i))
                     continue;
 
-                unused.Remove(i);           // we won't pair individual with itself
+                unused.Remove(i);
 
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
