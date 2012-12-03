@@ -41,8 +41,9 @@ namespace GA_SocialInteractions {
 
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
-
+                
                 double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+                
                 if (value > newMax)
                 {
                     newMax = value;
@@ -205,11 +206,11 @@ namespace GA_SocialInteractions {
 
         int Compare(Individual x, Individual y) {
             if (x.fitness > y.fitness)
-                return 1;
+                return -1;
             else if (x.fitness == y.fitness)
                 return 0;
             else
-                return -1;
+                return 1;
         }
 
         public void Show()
