@@ -43,6 +43,10 @@ namespace GA_SocialInteractions
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
                 maxFitness = population.Evaluation();
+                population.Sort();
+                population.getIndividual(0).Show();
+                Console.ReadLine();
+
                 Console.WriteLine("Population after evaluation:");
                 population.Show();
                 Console.ReadLine();
@@ -50,7 +54,7 @@ namespace GA_SocialInteractions
                 Population parents = population.TournamentSelection();
                 Console.WriteLine("parents before");
                 parents.Show();
-                Population offspring = population.TwoPointsCrossover(parents); 
+                Population offspring = population.TwoPointsCrossover(parents);
                 Console.WriteLine("parents after");
                 parents.Show();
                 Console.WriteLine("offspring");

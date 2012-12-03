@@ -10,6 +10,7 @@ namespace GA_SocialInteractions
         static void Main(string[] args)
         {
             // solution: 1 1 1 1 0 1 0 0 0 0 0
+            // sum of values = 309
 
             int numberOfObjects = 10;
             int numberOfKnapsacks = 1;

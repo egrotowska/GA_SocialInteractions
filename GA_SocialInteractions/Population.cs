@@ -41,8 +41,9 @@ namespace GA_SocialInteractions {
 
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
-                
-                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+
+                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome);
+                //double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
                 
                 if (value > newMax)
                 {
@@ -114,7 +115,7 @@ namespace GA_SocialInteractions {
             }
             for (int i = 0; i < numberOfIndividuals; i++)
             {
-                Console.Write(" {0} ", permutation[i]);
+                //Console.Write(" {0} ", permutation[i]);
             }
             return permutation;
         }
