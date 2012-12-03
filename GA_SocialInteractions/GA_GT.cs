@@ -34,13 +34,18 @@ namespace GA_SocialInteractions
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
 
             maxPayoff = gameModel.maxPayoff;
+            maxFitness = 1.0;
 
             Console.WriteLine("Random population:");
             population.Show();
             Console.ReadLine();
+
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
                 maxFitness = population.Evaluation();
+                Console.WriteLine("Population after evaluation:");
+                population.Show();
+                Console.ReadLine();
                 
                 Population parents = population.TournamentSelection();
                 Console.WriteLine("parents before");
