@@ -32,26 +32,33 @@ namespace GA_SocialInteractions
         {
             population = new Population();
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
-
+            maxFitness = 1.0;
             maxPayoff = gameModel.maxPayoff;
 
             Console.WriteLine("Random population:");
-            population.Show();
-            Console.ReadLine();
+        //    population.Show();
+            maxFitness = population.Evaluation();
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
-                maxFitness = population.Evaluation();
-                
-                Population parents = population.TournamentSelection();
-                Console.WriteLine("parents before");
-                parents.Show();
-                Population offspring = population.TwoPointsCrossover(parents); 
-                Console.WriteLine("parents after");
-                parents.Show();
-                Console.WriteLine("offspring");
-                offspring.Show();
 
-                Console.ReadLine();
+                population.Sort();
+                population.getIndividual(0).Show();
+               // Console.ReadLine();
+
+               // Console.WriteLine("Population after evaluation:");
+                //population.Show();
+               // Console.ReadLine();
+
+                Population parents = population.TournamentSelection();
+              //  Console.WriteLine("parents before");
+               //parents.Show();
+                Population offspring = population.TwoPointsCrossover(parents);
+               // Console.WriteLine("parents after");
+                //parents.Show();
+               // Console.WriteLine("offspring");
+               // offspring.Show();
+
+                //Console.ReadLine();
 
                 parents.Sort();
                 offspring.Sort();
@@ -65,16 +72,17 @@ namespace GA_SocialInteractions
                     population.Add(offspring.getIndividual(i));
                 }
 
-                Console.WriteLine("before mutation");
-                population.Show();
+              //  Console.WriteLine("before mutation");
+               // population.Show();
 
                 population.Mutation();
+                maxFitness = population.Evaluation();
+             //   Console.WriteLine("after mutation");
+                //population.Show();
 
-                Console.WriteLine("after mutation");
-                population.Show();
-
-                Console.ReadLine();
+               // Console.ReadLine();
             }
+          //  population.Show();
 
             population.Sort();
             return population.getIndividual(0);

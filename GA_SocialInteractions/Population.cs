@@ -22,6 +22,11 @@ namespace GA_SocialInteractions {
             this.population = new List<Individual>(p.population);
         }
 
+        public Population(List<Individual> p)
+        {
+            this.population = p;
+        }
+
         public double Evaluation() 
         {
             List<int> unused = new List<int>();
@@ -41,8 +46,8 @@ namespace GA_SocialInteractions {
 
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
-
-                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome);
+              //  double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
                 if (value > newMax)
                 {
                     newMax = value;
@@ -62,9 +67,9 @@ namespace GA_SocialInteractions {
 
                 Individual temp;
                 if (i < numberOfCheaters) 
-                    temp = new Individual(chromosome, false, (double) 0);   // tworzymy cheatera
+                    temp = new Individual(chromosome, false, (double) 0);   // cheater
                 else
-                    temp = new Individual(chromosome, true, (double) 0);    // tworzymy cooperatora
+                    temp = new Individual(chromosome, true, (double) 0);    // cooperator
 
                 population.Add(temp);
             }
@@ -111,38 +116,25 @@ namespace GA_SocialInteractions {
                 permutation[i] = permutation[randomValue];
                 permutation[randomValue] = temp;
             }
-            for (int i = 0; i < numberOfIndividuals; i++)
-            {
-                Console.Write(" {0} ", permutation[i]);
-            }
             return permutation;
         }
 
-        private Tuple<Individual, Individual> crossover(Individual ind1, Individual ind2, int index1, int index2)
+        protected Tuple<Individual, Individual> crossover(Individual ind1, Individual ind2, int index1, int index2)
         {
-            for (int i = index1; i < index2; i++)
+            for (int i = index1; i <= index2; i++)
             {
                 bool temp = ind1.chromosome[i];
                 ind1.chromosome[i] = ind2.chromosome[i];
                 ind2.chromosome[i] = temp;
             }
-            return new Tuple<Individual, Individual>(ind1, ind2);
+            return new Tuple<Individual, Individual>(ind1, ind2); 
         }
 
-        //not tested
-        public Population TwoPointsCrossover(Population parents)
-        {
-            Population offspring = new Population();
+        protected Population crossoverHelper(Population parents, int random_gens1, int random_gens2, int[] permutation) {
+            //some magic to have right order in offspring -> offsprings1 for permutations from 0 to parents.count/2, offsprings2 for rest
+            List<Individual> offsprings1 = new List<Individual>();
+            List<Individual> offsprings2 = new List<Individual>();
             List<int> used = new List<int>();
-
-            int[] permutation = generateRandomPairs(parents.Count);
-            int random_gens1 = GA_GT.random.Next() % parents.getChromosomeSize();
-            int random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
-
-            while (random_gens1 == random_gens2)
-            {
-                random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
-            }
 
             if (random_gens2 < random_gens1)
             {
@@ -154,11 +146,26 @@ namespace GA_SocialInteractions {
             for (int i = 0; i < parents.Count / 2; i++)
             {
                 Tuple<Individual, Individual> children = crossover(parents.getIndividual(permutation[i]), parents.getIndividual(permutation[parents.Count - 1 - i]), random_gens1, random_gens2);
-                offspring.Add(children.Item1);
-                offspring.Add(children.Item2);
-            } 
-            //offspring are not in the same order as parents - don't know if it is important
+                offsprings1.Add(children.Item1);
+                offsprings2.Add(children.Item2);
+            }
+            offsprings2.Reverse(0, offsprings2.Count);
+            offsprings1.AddRange(offsprings2);
+            Population offspring = new Population(offsprings1);
             return offspring;
+        }
+
+        public Population TwoPointsCrossover(Population parents)
+        {
+            int[] permutation = generateRandomPairs(parents.Count);
+            int random_gens1 = GA_GT.random.Next() % parents.getChromosomeSize();
+            int random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
+
+            while (random_gens1 == random_gens2)
+            {
+                random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
+            }
+            return crossoverHelper(parents, random_gens1, random_gens2, permutation);
         }
         
         public void Mutation() 
@@ -203,22 +210,22 @@ namespace GA_SocialInteractions {
             population.Sort(Compare);
         }
 
-        int Compare(Individual x, Individual y) {
-            if (x.fitness > y.fitness)
-                return 1;
-            else if (x.fitness == y.fitness)
-                return 0;
-            else
-                return -1;
-        }
-
         public void Show()
         {
             for (int i = 0; i < population.Count; i++)
             {
-                population[i].Show();
+                Console.Write(i + " ");  population[i].Show();
             }
             Console.WriteLine();
+        }
+
+        int Compare(Individual x, Individual y) {
+            if (x.fitness > y.fitness)
+                return -1;
+            else if (x.fitness == y.fitness)
+                return 0;
+            else
+                return 1;
         }
     }
 }

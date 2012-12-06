@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GA_SocialInteractions.tests;
+using GA_SocialInteractions.knapsacks;
 
 namespace GA_SocialInteractions
 {
@@ -9,47 +11,35 @@ namespace GA_SocialInteractions
     {
         static void Main(string[] args)
         {
+            TestPopulation t = new TestPopulation();
+
             int numberOfObjects = 10;
-            int numberOfKnapsacks = 1;
+            int constraint = 165;
 
-            int[][] weights = new int[numberOfKnapsacks][];
-            int[] values = new int[numberOfObjects];
-            int[] constraints = new int[numberOfKnapsacks];
-            
-            for (int i = 0; i < numberOfKnapsacks; i++)
-            {
-                weights[i] = new int[numberOfObjects];
-
-                for (int j = 0; j < numberOfObjects; j++)
-                {
-                    weights[i][j] = j + 1;
-                }
-
-                constraints[i] = 15;
-            }
-
-            for (int i = 0; i < numberOfObjects; i++)
-            {
-                values[i] = 2 * i;
-            }
-            
-            Knapsack knapsack = new Knapsack(weights, values, constraints);
+            Knapsack knapsack = (new KnapsackSample(numberOfObjects, constraint)).knapsack;
+            init_static_GA_GT(knapsack, numberOfObjects);
+           knapsack.Show();
+            Console.ReadLine();
             GA_GT ga_gt = new GA_GT();
+            
+            ga_gt.RunGA_GT().Show(); 
+            Console.Read(); 
+        }
 
-            GA_GT.numberOfEpochs = 100;
-            GA_GT.chromosomeLength = 10;
-            GA_GT.populationSize = 10;
+        static void init_static_GA_GT(Knapsack knapsack, int numberOfObjects)
+        {
+            GA_GT.numberOfEpochs = 1000;
+            GA_GT.chromosomeLength = numberOfObjects;
+            GA_GT.populationSize = 500;
             GA_GT.gameModel = new PrisonersDilemma();
             GA_GT.knapsack = knapsack;
-            GA_GT.weightGA = 0.1;
-            GA_GT.weightGT = 0.1;
-            GA_GT.cheatingDegree = 0.1;
+            GA_GT.weightGA = 0.8;
+            GA_GT.weightGT = 0.2;
+            GA_GT.cheatingDegree = 50;
             GA_GT.cheaterRate = 0.1;
-            GA_GT.crossoverRate = 0.1;
-            GA_GT.mutationRate = 0.1;
-
-            ga_gt.RunGA_GT();
-            Console.Read();
+            GA_GT.crossoverRate = 0.75;
+            GA_GT.mutationRate = 1.0 / GA_GT.chromosomeLength;
         }
+
     }
 }

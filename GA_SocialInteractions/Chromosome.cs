@@ -25,21 +25,23 @@ namespace GA_SocialInteractions {
             } while (!IsFeasible());
         }
 
+        public Chromosome(bool[] genes)
+        {
+            this.genes = genes;
+        }
+
         public bool IsFeasible()
         {
-            for (int m = 0; m < GA_GT.knapsack.NumberOfKnapsacks; m++)
+            int sum = 0;
+
+            for (int i = 0; i < genes.Length; i++)
             {
-                int sum = 0;
+                sum += genes[i] ? GA_GT.knapsack.GetWeight(i) : 0;
+            }
 
-                for (int i = 0; i < genes.Length; i++)
-                {
-                    sum += genes[i] ? GA_GT.knapsack.GetWeight(m, i) : 0;
-                }
-
-                if (sum > GA_GT.knapsack.GetConstraint(m))
-                {
-                    return false;
-                }
+            if (sum > GA_GT.knapsack.constraint)
+            {
+                return false;
             }
 
             return true;

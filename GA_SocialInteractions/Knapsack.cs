@@ -7,50 +7,51 @@ namespace GA_SocialInteractions
 {
     class Knapsack
     {
-        int numberOfKnapsacks;
         int numberOfObjects;
         public int NumberOfObjects
         {
             get { return numberOfObjects; }
         }
 
-        public int NumberOfKnapsacks
+        int[] weights_;
+        public int[] weights
         {
-            get { return numberOfKnapsacks; }
+            get { return weights_; }
+            set { weights_ = value; }
         }
-        int[][] weights;
-        int[] constraints;
-        int[] values;
 
-        public Knapsack(int[][] weights, int[] values, int[] constraints)
+        int constraint_;
+        public int constraint
         {
-            this.weights = weights;
-            this.numberOfObjects = weights[0].Length;
-            this.numberOfKnapsacks = weights.Length;
+            get { return constraint_; }
+            set { constraint_ = value; }
+        }
+        
+        int[] values_;
+        public int[] values
+        {
+            get { return values_; }
+            set { values_ = value; }
+        }
 
-            for (int i = 0; i < numberOfKnapsacks; i++)
-            {
-                if (weights[i].Length != numberOfObjects)
-                    throw new ArgumentException("Knapsack constructor: weights");
-            }
+        public Knapsack(int[] weights, int[] values, int constraint)
+        {
+            this.weights_ = weights;
+            this.numberOfObjects = weights.Length;
+            this.constraint_ = constraint;
 
-            this.values = values;
+            this.values_ = values;
 
             if (values.Length != numberOfObjects)
                 throw new ArgumentException("Knapsack constructor: values");
-
-            this.constraints = constraints;
-
-            if (constraints.Length != numberOfKnapsacks)
-                throw new ArgumentException("Knapsack constructor: constraints");
         }
 
-        public int GetWeight(int i, int j)
+        public int GetWeight(int i)
         {
-            if (i + 1 > numberOfKnapsacks || j + 1 > numberOfObjects)
+            if (i + 1 > numberOfObjects)
                 throw new ArgumentOutOfRangeException("Knapsack.GetWeight");
 
-            return weights[i][j];
+            return weights_[i];
         }
 
         public int GetValue(int i)
@@ -58,15 +59,14 @@ namespace GA_SocialInteractions
             if(i + 1 > numberOfObjects)
                 throw new ArgumentOutOfRangeException("Knapsack.GetValue");
 
-            return values[i];
+            return values_[i];
         }
 
-        public int GetConstraint(int i)
-        {
-            if (i + 1 > numberOfKnapsacks)
-                throw new ArgumentOutOfRangeException("Knapsack.GetConstraint");
-
-            return constraints[i];
+        public void Show() {
+            Console.WriteLine("Constraint " + constraint_);
+            for (int i = 0; i < numberOfObjects; i++) {
+                Console.WriteLine("Object {0} : val {1} wgh {2}", i, values_[i], weights_[i]);
+            }
         }
     }
 }
