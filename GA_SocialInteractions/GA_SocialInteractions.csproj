@@ -52,7 +52,8 @@
     <Compile Include="GA_GT.cs" />
     <Compile Include="Individual.cs" />
     <Compile Include="Knapsack.cs" />
-    <Compile Include="knapsacks\KnapsackSample.cs" />
+    <Compile Include="KnapsackList.cs" />
+    <Compile Include="samples\KnapsackSample.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,7 +8,7 @@ namespace GA_SocialInteractions
     class KnapsackList
     {
         List<Knapsack> knapsackList_;
-        public List<Knapsack> KnapsackList {
+        public List<Knapsack> knapsackList {
             get { return knapsackList_; }
         }
 
