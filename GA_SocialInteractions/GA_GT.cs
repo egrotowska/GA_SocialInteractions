@@ -12,7 +12,7 @@ namespace GA_SocialInteractions
         public static int populationSize;         // liczebnosc populacji
         public static Game gameModel;             // model z teorii gier
 
-        public static Knapsack knapsack;
+        public static KnapsackList knapsackList;
                                                   // w paperze oznaczone:
         public static double weightGA;            // beta_GA
         public static double weightGT;            // beta_GT

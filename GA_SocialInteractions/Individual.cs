@@ -8,7 +8,7 @@ namespace GA_SocialInteractions {
 
         Chromosome chromosome_;
         bool strategy_;
-        double fitness_;
+        double fitness_; 
 
         public Chromosome chromosome
         {
@@ -40,39 +40,39 @@ namespace GA_SocialInteractions {
             this.fitness_ = fitness;
         }
 
-        private double fitnessCooperativeCooperative(Chromosome chromosome) 
+        private double fitnessCooperativeCooperative(Chromosome chromosome, Knapsack knapsack) 
         {
-              if (chromosome.IsFeasible())
-                    {
-                        double sum = 0.0;
-                        for (int i = 0; i < chromosome.Count; i++)
-                        {
-                            sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) : 0.0;
-                        }
+            if (chromosome.IsFeasible())
+            {
+                double sum = 0.0;
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? knapsack.GetValue(i) : 0.0;
+                }
 
-                        return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
-                    }
-                    else
-                    {
-                        double sum = 0.0;
-                        for (int i = 0; i < chromosome.Count; i++)
-                        {
-                            sum += chromosome[i] ? GA_GT.knapsack.GetWeight(i) : 0.0;
-                        }
+                return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
+            }
+            else
+            {
+                double sum = 0.0;
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? knapsack.GetWeight(i) : 0.0;
+                }
 
-                        return GA_GT.weightGA * (GA_GT.knapsack.constraint - sum) / GA_GT.maxFitness 
-                             + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
-                    }
+                return GA_GT.weightGA * (knapsack.constraint - sum) / GA_GT.maxFitness
+                     + GA_GT.weightGT * GA_GT.gameModel.cooperatorCooperatorPayoff / GA_GT.maxPayoff;
+            }
         }
 
-        private double fitnessCooperativeDefector(Chromosome chromosome)
+        private double fitnessCooperativeDefector(Chromosome chromosome, Knapsack knapsack)
         {
             double sum = 0.0;
             if (chromosome.IsFeasible())
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
-                    sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) : 0.0;
+                    sum += chromosome[i] ? knapsack.GetValue(i) : 0.0;
                 }
                 return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.cooperatorDefectorPayoff / GA_GT.maxPayoff;
             }
@@ -80,15 +80,15 @@ namespace GA_SocialInteractions {
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
-                    sum += chromosome[i] ? GA_GT.knapsack.GetWeight(i) : 0.0;
+                    sum += chromosome[i] ? knapsack.GetWeight(i) : 0.0;
                 }
 
-                return GA_GT.weightGA * (GA_GT.knapsack.constraint - sum) / GA_GT.maxFitness
+                return GA_GT.weightGA * (knapsack.constraint - sum) / GA_GT.maxFitness
                      + GA_GT.weightGT * GA_GT.gameModel.cooperatorDefectorPayoff / GA_GT.maxPayoff;
             }
         }
 
-        private double fitnessDefectorCooperative(Chromosome chromosome)
+        private double fitnessDefectorCooperative(Chromosome chromosome, Knapsack knapsack)
         {
             double deltaV = GA_GT.cheatingDegree / 100.0;
             double deltaW = GA_GT.cheatingDegree / 100.0;
@@ -98,7 +98,7 @@ namespace GA_SocialInteractions {
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
-                    sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) + deltaV : 0.0;
+                    sum += chromosome[i] ? knapsack.GetValue(i) + deltaV : 0.0;
                 }
                 return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.defectorCooperatorPayoff / GA_GT.maxPayoff;
             }
@@ -106,15 +106,15 @@ namespace GA_SocialInteractions {
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
-                    sum += chromosome[i] ? GA_GT.knapsack.GetWeight(i) - deltaW : 0.0;
+                    sum += chromosome[i] ? knapsack.GetWeight(i) - deltaW : 0.0;
                 }
 
-                return GA_GT.weightGA * (GA_GT.knapsack.constraint - sum) / GA_GT.maxFitness
+                return GA_GT.weightGA * (knapsack.constraint - sum) / GA_GT.maxFitness
                      + GA_GT.weightGT * GA_GT.gameModel.defectorCooperatorPayoff / GA_GT.maxPayoff;
             }
         }
 
-        private double fitnessDefectorDefector(Chromosome chromosome)
+        private double fitnessDefectorDefector(Chromosome chromosome, Knapsack knapsack)
         {
             double deltaV = GA_GT.cheatingDegree / 100.0;
             double deltaW = GA_GT.cheatingDegree / 100.0;
@@ -124,7 +124,7 @@ namespace GA_SocialInteractions {
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
-                    sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) + deltaV : 0.0;
+                    sum += chromosome[i] ? knapsack.GetValue(i) + deltaV : 0.0;
                 }
                 return GA_GT.weightGA * sum / GA_GT.maxFitness + GA_GT.weightGT * GA_GT.gameModel.defectorDefectorPayoff / GA_GT.maxPayoff;
             }
@@ -132,48 +132,48 @@ namespace GA_SocialInteractions {
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
-                    sum += chromosome[i] ? GA_GT.knapsack.GetWeight(i) - deltaW : 0.0;
+                    sum += chromosome[i] ? knapsack.GetWeight(i) - deltaW : 0.0;
                 }
 
-                return GA_GT.weightGA * (GA_GT.knapsack.constraint - sum) / GA_GT.maxFitness
+                return GA_GT.weightGA * (knapsack.constraint - sum) / GA_GT.maxFitness
                      + GA_GT.weightGT * GA_GT.gameModel.defectorDefectorPayoff / GA_GT.maxPayoff;
             }
         }
 
-        //public double FitnessValue(Chromosome chromosome, bool strategy1, bool strategy2) 
+        //public double FitnessValue(Chromosome chromosome, Knapsack knapsack, bool strategy1, bool strategy2) 
         //{
         //    if (strategy1)
         //    {
         //        if (strategy2)
         //        {
-        //            return fitnessCooperativeCooperative(chromosome);
+        //            return fitnessCooperativeCooperative(chromosome, knapsack);
         //        } 
         //        else
         //        {
-        //            return fitnessCooperativeDefector(chromosome);
+        //            return fitnessCooperativeDefector(chromosome, knapsack);
         //        }
         //    } 
         //    else
         //    {
         //        if (strategy2)
         //        {
-        //            return fitnessDefectorCooperative(chromosome);
+        //            return fitnessDefectorCooperative(chromosome, knapsack);
         //        }
         //        else
         //        {
-        //            return fitnessDefectorDefector(chromosome);
+        //            return fitnessDefectorDefector(chromosome, knapsack);
         //        }
         //    }
         //}
 
-        public double FitnessValue(Chromosome chromosome)
+        public double FitnessValue(Chromosome chromosome, Knapsack knapsack)
         {
             if (chromosome.IsFeasible())
             {
                 double sum = 0.0;
                 for (int i = 0; i < chromosome.Count; i++)
                 {
-                    sum += chromosome[i] ? GA_GT.knapsack.GetValue(i) : 0.0;
+                    sum += chromosome[i] ? knapsack.GetValue(i) : 0.0;
                 }
 
                 return sum;
@@ -183,10 +183,10 @@ namespace GA_SocialInteractions {
                 //double sum = 0.0;
                 //for (int i = 0; i < chromosome.Count; i++)
                 //{
-                //    sum += chromosome[i] ? GA_GT.knapsack.GetWeight(i) : 0.0;
+                //    sum += chromosome[i] ? knapsack.GetWeight(i) : 0.0;
                 //}
 
-                //return GA_GT.knapsack.constraint - sum;
+                //return knapsack.constraint - sum;
                 return 0.0;
             }
         }

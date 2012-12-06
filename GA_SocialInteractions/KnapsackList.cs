@@ -27,11 +27,20 @@ namespace GA_SocialInteractions
 
             int numberOfValues = knapsackList_[0].values.Count();
             int numberOfWeights = knapsackList_[0].weights.Count();
-            for (int i = 1; i < knapsackList_.Count; i++)
+            foreach (Knapsack knapsack in knapsackList_)
             {
-                if (knapsackList_[i].values.Count() != numberOfValues && knapsackList_[i].weights.Count() != numberOfWeights) return false;
+                if (knapsack.values.Count() != numberOfValues && knapsack.weights.Count() != numberOfWeights) return false;
             }
             return true;
+        }
+
+        public void Show()
+        {
+            for (int i = 0; i < knapsackList_.Count; i++)
+            {
+                Console.Write("Knapsack {0}: ", i);
+                knapsackList_[i].Show();
+            }
         }
     }
 }
