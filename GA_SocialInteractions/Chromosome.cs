@@ -13,7 +13,7 @@ namespace GA_SocialInteractions {
             get { return genes.Length; }
         }
 
-        public Chromosome(int size)
+        public Chromosome(int size, Knapsack knapsack)
         {
             this.genes = new bool[size];
             do
@@ -22,7 +22,7 @@ namespace GA_SocialInteractions {
                 {
                     this.genes[j] = Convert.ToBoolean(GA_GT.random.Next() % 2);
                 }
-            } while (!IsFeasible());
+            } while (!IsFeasible(knapsack));
         }
 
         public Chromosome(bool[] genes)
@@ -62,7 +62,6 @@ namespace GA_SocialInteractions {
             {
                 return false;
             }
-
             return true;
         }
 

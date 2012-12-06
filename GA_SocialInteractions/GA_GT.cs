@@ -38,7 +38,6 @@ namespace GA_SocialInteractions
 
             Console.WriteLine("Random population:");
 
-        //    population.Show();
             maxFitness = population.Evaluation();
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {

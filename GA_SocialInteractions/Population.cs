@@ -65,7 +65,7 @@ namespace GA_SocialInteractions {
             int numberOfCheaters = (int)(populationSize * cheaterRate);
 
             for (int i = 0; i < populationSize; i++) {
-                Chromosome chromosome = new Chromosome(chromosomeSize);
+                Chromosome chromosome = new Chromosome(chromosomeSize, GA_GT.knapsackList.knapsackList[0]);
 
                 Individual temp;
                 if (i < numberOfCheaters) 
@@ -75,6 +75,7 @@ namespace GA_SocialInteractions {
 
                 population.Add(temp);
             }
+
         }
 
 

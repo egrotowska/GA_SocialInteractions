@@ -51,6 +51,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GA_GT.cs" />
     <Compile Include="Individual.cs" />
+    <Compile Include="InputOutput.cs" />
     <Compile Include="Knapsack.cs" />
     <Compile Include="KnapsackList.cs" />
     <Compile Include="samples\KnapsackSample.cs" />
@@ -60,7 +61,11 @@
     <Compile Include="tests\TestIndividual.cs" />
     <Compile Include="tests\TestPopulation.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="samples\MK250.txt" />
+    <Content Include="samples\MKSento1.txt" />
+    <Content Include="samples\p08.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

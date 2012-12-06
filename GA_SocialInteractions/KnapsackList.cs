@@ -38,7 +38,6 @@ namespace GA_SocialInteractions
         {
             for (int i = 0; i < knapsackList_.Count; i++)
             {
-                Console.Write("Knapsack {0}: ", i);
                 knapsackList_[i].Show();
             }
         }

@@ -13,29 +13,19 @@ namespace GA_SocialInteractions
         {
             TestPopulation t = new TestPopulation();
 
-            int numberOfObjects = 10;
-            int constraint = 165;
-
-            List<Knapsack> knapsacks = new List<Knapsack>();
-            knapsacks.Add((new KnapsackSample(numberOfObjects, constraint)).knapsack);
-            KnapsackList knapsackList = new KnapsackList(knapsacks);
-
-            init_static_GA_GT(knapsackList, numberOfObjects);
+            string path = @"..\..\samples\p08.txt"; // on my computer this works
+            KnapsackList knapsackList = InputOutput.ReadInput(path);
             knapsackList.Show();
-            Console.ReadLine();
+            init_static_GA_GT(knapsackList);
 
             GA_GT ga_gt = new GA_GT();
             
-            ga_gt.RunGA_GT().Show(); 
-            Console.Read(); 
+            ga_gt.RunGA_GT(); 
+            Console.ReadLine(); 
         }
 
-        static void init_static_GA_GT(KnapsackList knapsackList, int numberOfObjects)
+        static void init_static_GA_GT(KnapsackList knapsackList)
         {
-            GA_GT.numberOfEpochs = 1000;
-            GA_GT.chromosomeLength = numberOfObjects;
-            GA_GT.populationSize = 500;
-
             GA_GT.gameModel = new PrisonersDilemma();
             GA_GT.knapsackList = knapsackList;
             GA_GT.weightGA = 0.8;
@@ -46,8 +36,9 @@ namespace GA_SocialInteractions
 
             GA_GT.mutationRate = 1.0 / GA_GT.chromosomeLength;
 
-            Console.Read();
+            GA_GT.numberOfEpochs = 100;
+            GA_GT.chromosomeLength = InputOutput.NUMBER_OF_OBJECTS; //values.Count  = weights.Count 
+            GA_GT.populationSize = 50;
         }
-
     }
 }
