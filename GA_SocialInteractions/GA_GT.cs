@@ -34,8 +34,10 @@ namespace GA_SocialInteractions
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
             maxFitness = 1.0;
             maxPayoff = gameModel.maxPayoff;
+            maxFitness = 1.0;
 
             Console.WriteLine("Random population:");
+
         //    population.Show();
             maxFitness = population.Evaluation();
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
@@ -57,6 +59,7 @@ namespace GA_SocialInteractions
                 //parents.Show();
                // Console.WriteLine("offspring");
                // offspring.Show();
+
 
                 //Console.ReadLine();
 

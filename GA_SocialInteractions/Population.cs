@@ -46,8 +46,10 @@ namespace GA_SocialInteractions {
 
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
+
                 double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome);
               //  double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+
                 if (value > newMax)
                 {
                     newMax = value;
@@ -116,6 +118,7 @@ namespace GA_SocialInteractions {
                 permutation[i] = permutation[randomValue];
                 permutation[randomValue] = temp;
             }
+
             return permutation;
         }
 

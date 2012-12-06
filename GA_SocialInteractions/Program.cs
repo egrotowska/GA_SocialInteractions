@@ -20,6 +20,7 @@ namespace GA_SocialInteractions
             init_static_GA_GT(knapsack, numberOfObjects);
            knapsack.Show();
             Console.ReadLine();
+
             GA_GT ga_gt = new GA_GT();
             
             ga_gt.RunGA_GT().Show(); 
@@ -31,6 +32,7 @@ namespace GA_SocialInteractions
             GA_GT.numberOfEpochs = 1000;
             GA_GT.chromosomeLength = numberOfObjects;
             GA_GT.populationSize = 500;
+
             GA_GT.gameModel = new PrisonersDilemma();
             GA_GT.knapsack = knapsack;
             GA_GT.weightGA = 0.8;
@@ -38,7 +40,10 @@ namespace GA_SocialInteractions
             GA_GT.cheatingDegree = 50;
             GA_GT.cheaterRate = 0.1;
             GA_GT.crossoverRate = 0.75;
+
             GA_GT.mutationRate = 1.0 / GA_GT.chromosomeLength;
+
+            Console.Read();
         }
 
     }
