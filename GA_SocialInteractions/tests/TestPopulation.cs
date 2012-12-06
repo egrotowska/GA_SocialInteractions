@@ -9,11 +9,11 @@ namespace GA_SocialInteractions.tests
     {
         public TestPopulation()
         {
-            Console.WriteLine("testcrossoverPopulation : {0} ", testcrossoverPopulation());
+            Console.WriteLine("testcrossoverPopulation : {0} ", testCrossoverPopulation());
             Console.WriteLine("crossoverTestIndividual : {0} ", testCrossoverIndividuals());
         }
 
-        public bool testcrossoverPopulation()
+        public bool testCrossoverPopulation()
         {
             Population parents = new Population();
 
