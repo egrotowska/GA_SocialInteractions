@@ -16,13 +16,28 @@ namespace GA_SocialInteractions {
         public Chromosome(int size, Knapsack knapsack)
         {
             this.genes = new bool[size];
-            do
+
+            List<int> zeros = new List<int>();
+
+            for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < size; j++)
+                zeros.Add(i);
+            }
+
+            while (zeros.Count > 0)
+            {
+                int index = GA_GT.random.Next() % zeros.Count;
+
+                this.genes[index] = true;
+
+                if (!IsFeasible(knapsack))
                 {
-                    this.genes[j] = Convert.ToBoolean(GA_GT.random.Next() % 2);
+                    this.genes[index] = false;
+                    return;
                 }
-            } while (!IsFeasible(knapsack));
+
+                zeros.Remove(index);
+            }
         }
 
         public Chromosome(bool[] genes)
@@ -32,9 +47,9 @@ namespace GA_SocialInteractions {
 
         public bool IsFeasible()
         {
-            int sum = 0;
             foreach (Knapsack knapsack in GA_GT.knapsackList.knapsackList)
             {
+                int sum = 0;
                 for (int i = 0; i < genes.Length; i++)
                 {
                     sum += genes[i] ? knapsack.GetWeight(i) : 0;

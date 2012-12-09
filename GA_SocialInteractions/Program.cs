@@ -13,7 +13,7 @@ namespace GA_SocialInteractions
         {
             TestPopulation t = new TestPopulation();
 
-            string path = @"..\..\samples\p08.txt"; // on my computer this works
+            string path = @"..\..\samples\MK250.txt"; // on my computer this works
             KnapsackList knapsackList = InputOutput.ReadInput(path);
             knapsackList.Show();
             init_static_GA_GT(knapsackList);
