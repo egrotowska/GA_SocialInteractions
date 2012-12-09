@@ -54,7 +54,6 @@
     <Compile Include="InputOutput.cs" />
     <Compile Include="Knapsack.cs" />
     <Compile Include="KnapsackList.cs" />
-    <Compile Include="samples\KnapsackSample.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

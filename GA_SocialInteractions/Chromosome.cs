@@ -45,24 +45,7 @@ namespace GA_SocialInteractions {
             this.genes = genes;
         }
 
-        public bool IsFeasible()
-        {
-            foreach (Knapsack knapsack in GA_GT.knapsackList.knapsackList)
-            {
-                int sum = 0;
-                for (int i = 0; i < genes.Length; i++)
-                {
-                    sum += genes[i] ? knapsack.GetWeight(i) : 0;
-                }
 
-                if (sum > knapsack.constraint)
-                {
-                    return false;
-                }
-            }
-            return true;
-
-        }
 
         public bool IsFeasible(Knapsack knapsack)
         {

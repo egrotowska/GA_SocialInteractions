@@ -42,7 +42,7 @@ namespace GA_SocialInteractions {
 
         private double fitnessCooperativeCooperative(Chromosome chromosome, Knapsack knapsack) 
         {
-            if (chromosome.IsFeasible())
+            if (chromosome.IsFeasible(knapsack))
             {
                 double sum = 0.0;
                 for (int i = 0; i < chromosome.Count; i++)
@@ -68,7 +68,7 @@ namespace GA_SocialInteractions {
         private double fitnessCooperativeDefector(Chromosome chromosome, Knapsack knapsack)
         {
             double sum = 0.0;
-            if (chromosome.IsFeasible())
+            if (chromosome.IsFeasible(knapsack))
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
@@ -93,8 +93,8 @@ namespace GA_SocialInteractions {
             double deltaV = GA_GT.cheatingDegree / 100.0;
             double deltaW = GA_GT.cheatingDegree / 100.0;
             double sum = 0.0;
-            
-            if (chromosome.IsFeasible())
+
+            if (chromosome.IsFeasible(knapsack))
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
@@ -120,7 +120,7 @@ namespace GA_SocialInteractions {
             double deltaW = GA_GT.cheatingDegree / 100.0;
             double sum = 0.0;
 
-            if (chromosome.IsFeasible())
+            if (chromosome.IsFeasible(knapsack))
             {
                 for (int i = 0; i < chromosome.Count; i++)
                 {
@@ -168,7 +168,7 @@ namespace GA_SocialInteractions {
 
         public double FitnessValue(Chromosome chromosome, Knapsack knapsack)
         {
-            if (chromosome.IsFeasible())
+            if (chromosome.IsFeasible(knapsack))
             {
                 double sum = 0.0;
                 for (int i = 0; i < chromosome.Count; i++)
@@ -210,7 +210,14 @@ namespace GA_SocialInteractions {
                 else
                     Console.Write("0 ");
             }
-            Console.WriteLine(strategy_ + " " + fitness_);
+            if (strategy_)
+            {
+                Console.WriteLine("cooperator " + fitness_);
+            }
+            else
+            {
+                Console.WriteLine("defector " + fitness_);
+            }
         }
     }
 }

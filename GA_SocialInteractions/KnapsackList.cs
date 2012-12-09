@@ -34,6 +34,11 @@ namespace GA_SocialInteractions
             return true;
         }
 
+        public Knapsack getKnapsack(int i)
+        {
+            return knapsackList_[i];
+        }
+
         public void Show()
         {
             for (int i = 0; i < knapsackList_.Count; i++)

@@ -31,19 +31,19 @@ namespace GA_SocialInteractions
         public Individual RunGA_GT()
         {
             population = new Population();
-            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
+            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize, knapsackList.getKnapsack(0));
             maxFitness = 1.0;
             maxPayoff = gameModel.maxPayoff;
             maxFitness = 1.0;
 
             Console.WriteLine("Random population:");
 
-            maxFitness = population.Evaluation();
+            maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
 
                 population.Sort();
-                population.getIndividual(0).Show();
+             //   population.getIndividual(0).Show();
                // Console.ReadLine();
 
                // Console.WriteLine("Population after evaluation:");
@@ -78,7 +78,7 @@ namespace GA_SocialInteractions
                // population.Show();
 
                 population.Mutation();
-                maxFitness = population.Evaluation();
+                maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
              //   Console.WriteLine("after mutation");
                 //population.Show();
 
