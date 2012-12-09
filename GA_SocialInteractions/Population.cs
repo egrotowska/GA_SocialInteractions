@@ -189,8 +189,10 @@ namespace GA_SocialInteractions {
             {
                 for (int j = 0; j < chromosomeSize; j++)
                 {
-                    if (GA_GT.random.NextDouble() < GA_GT.mutationRate) 
+                    if (GA_GT.random.NextDouble() < GA_GT.mutationRate)
+                    {
                         population[i].MutateGene(j);
+                    }
                 }
             }
         }

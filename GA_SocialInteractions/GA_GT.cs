@@ -39,52 +39,37 @@ namespace GA_SocialInteractions
             Console.WriteLine("Random population:");
 
             maxFitness = population.Evaluation();
+
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
-
                 population.Sort();
-                population.getIndividual(0).Show();
-               // Console.ReadLine();
-
-               // Console.WriteLine("Population after evaluation:");
-                //population.Show();
-               // Console.ReadLine();
+                population.getIndividual(0).ShowFitness();
 
                 Population parents = population.TournamentSelection();
-              //  Console.WriteLine("parents before");
-               //parents.Show();
                 Population offspring = population.TwoPointsCrossover(parents);
-               // Console.WriteLine("parents after");
-                //parents.Show();
-               // Console.WriteLine("offspring");
-               // offspring.Show();
-
-
-                //Console.ReadLine();
 
                 parents.Sort();
                 offspring.Sort();
 
+                // Another way of choosing the new generation:
                 population.Clear();
+                population.AddRange(parents);
+                population.AddRange(offspring);
+                population.Sort();
 
-                // TODO: number of cheaters should be less than a cheater rate? or some other value?
-                for (int i = 0; i < populationSize / 2; i++)
-                {
-                    population.Add(parents.getIndividual(i));
-                    population.Add(offspring.getIndividual(i));
-                }
+                population.RemoveRange(populationSize, population.Count - populationSize);
 
-              //  Console.WriteLine("before mutation");
-               // population.Show();
+                //// TODO: number of cheaters should be less than a cheater rate? or some other value?
+                //for (int i = 0; i < populationSize / 2; i++)
+                //{
+                //    population.Add(parents.getIndividual(i));
+                //    population.Add(offspring.getIndividual(i));
+                //}
 
                 population.Mutation();
                 maxFitness = population.Evaluation();
-             //   Console.WriteLine("after mutation");
-                //population.Show();
 
-               // Console.ReadLine();
             }
-          //  population.Show();
 
             population.Sort();
             return population.getIndividual(0);
