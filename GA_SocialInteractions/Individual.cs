@@ -212,5 +212,10 @@ namespace GA_SocialInteractions {
             }
             Console.WriteLine(strategy_ + " " + fitness_);
         }
+
+        public void ShowFitness()
+        {
+            Console.WriteLine(fitness_);
+        }
     }
 }
