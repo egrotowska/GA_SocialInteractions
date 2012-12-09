@@ -47,14 +47,22 @@ namespace GA_SocialInteractions {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
 
-                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
-                //  double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, , GA_GT.knapsackList.knapsackList[0]), getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+                // TODO: The way we call FitnessValue looks strange. It should be either static or simply FitnessValue(Knapsack k)
+                double value1 = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
+                double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(randomIndex).chromosome, GA_GT.knapsackList.knapsackList[0]);
 
-                if (value > newMax)
+                if (value1 > newMax)
                 {
-                    newMax = value;
+                    newMax = value1;
                 }
-                population[i] = new Individual(getIndividual(i).chromosome, getIndividual(i).strategy, value);
+
+                if (value2 > newMax)
+                {
+                    newMax = value2;
+                }
+
+                population[i].fitness = value1;
+                population[randomIndex].fitness = value2;
             }
 
             return newMax;
