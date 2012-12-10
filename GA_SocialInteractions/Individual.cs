@@ -140,31 +140,31 @@ namespace GA_SocialInteractions {
             }
         }
 
-        //public double FitnessValue(Chromosome chromosome, Knapsack knapsack, bool strategy1, bool strategy2) 
-        //{
-        //    if (strategy1)
-        //    {
-        //        if (strategy2)
-        //        {
-        //            return fitnessCooperativeCooperative(chromosome, knapsack);
-        //        } 
-        //        else
-        //        {
-        //            return fitnessCooperativeDefector(chromosome, knapsack);
-        //        }
-        //    } 
-        //    else
-        //    {
-        //        if (strategy2)
-        //        {
-        //            return fitnessDefectorCooperative(chromosome, knapsack);
-        //        }
-        //        else
-        //        {
-        //            return fitnessDefectorDefector(chromosome, knapsack);
-        //        }
-        //    }
-        //}
+        public double FitnessValue(Chromosome chromosome, Knapsack knapsack, bool strategy1, bool strategy2)
+        {
+            if (strategy1)
+            {
+                if (strategy2)
+                {
+                    return fitnessCooperativeCooperative(chromosome, knapsack);
+                }
+                else
+                {
+                    return fitnessCooperativeDefector(chromosome, knapsack);
+                }
+            }
+            else
+            {
+                if (strategy2)
+                {
+                    return fitnessDefectorCooperative(chromosome, knapsack);
+                }
+                else
+                {
+                    return fitnessDefectorDefector(chromosome, knapsack);
+                }
+            }
+        }
 
         public double FitnessValue(Chromosome chromosome, Knapsack knapsack)
         {
@@ -210,6 +210,18 @@ namespace GA_SocialInteractions {
                 else
                     Console.Write("0 ");
             }
+            if (strategy_)
+            {
+                Console.WriteLine("cooperator " + fitness_);
+            }
+            else
+            {
+                Console.WriteLine("defector " + fitness_);
+            }
+        }
+
+        public void ShowFitnessAndStrategy()
+        {
             if (strategy_)
             {
                 Console.WriteLine("cooperator " + fitness_);

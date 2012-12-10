@@ -30,61 +30,43 @@ namespace GA_SocialInteractions
 
         public Individual RunGA_GT()
         {
+            Console.WriteLine("blabla {0} {1} {2} ", cheaterRate, chromosomeLength, populationSize);
+            knapsackList.getKnapsack(0).Show();
             population = new Population();
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize, knapsackList.getKnapsack(0));
+
             maxFitness = 1.0;
             maxPayoff = gameModel.maxPayoff;
-            maxFitness = 1.0;
-
-            Console.WriteLine("Random population:");
 
             maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
 
                 population.Sort();
-             //   population.getIndividual(0).Show();
-               // Console.ReadLine();
-
-               // Console.WriteLine("Population after evaluation:");
-                //population.Show();
-               // Console.ReadLine();
+                for (int i = 0; i < population.Count; i++)
+                {
+                    population.getIndividual(i).ShowFitnessAndStrategy();
+                }
+                Console.ReadLine();
 
                 Population parents = population.TournamentSelection();
-              //  Console.WriteLine("parents before");
-               //parents.Show();
-                Population offspring = population.TwoPointsCrossover(parents);
-               // Console.WriteLine("parents after");
-                //parents.Show();
-               // Console.WriteLine("offspring");
-               // offspring.Show();
 
-
-                //Console.ReadLine();
+                Population offspring = population.TwoPointsCrossover(population);
 
                 parents.Sort();
                 offspring.Sort();
 
                 population.Clear();
 
-                // TODO: number of cheaters should be less than a cheater rate? or some other value?
                 for (int i = 0; i < populationSize / 2; i++)
                 {
                     population.Add(parents.getIndividual(i));
                     population.Add(offspring.getIndividual(i));
                 }
 
-              //  Console.WriteLine("before mutation");
-               // population.Show();
-
                 population.Mutation();
                 maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
-             //   Console.WriteLine("after mutation");
-                //population.Show();
-
-               // Console.ReadLine();
             }
-          //  population.Show();
 
             population.Sort();
             return population.getIndividual(0);

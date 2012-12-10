@@ -64,6 +64,7 @@
     <Content Include="samples\MK250.txt" />
     <Content Include="samples\MKSento1.txt" />
     <Content Include="samples\p08.txt" />
+    <Content Include="samples\Simple.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

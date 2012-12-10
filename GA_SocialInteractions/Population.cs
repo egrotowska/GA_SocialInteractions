@@ -47,8 +47,8 @@ namespace GA_SocialInteractions {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
 
-                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack);
-                //  double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, , knapsack), getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+                //double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack);
+                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
 
                 if (value > newMax)
                 {
@@ -161,6 +161,7 @@ namespace GA_SocialInteractions {
         public Population TwoPointsCrossover(Population parents)
         {
             int[] permutation = generateRandomPairs(parents.Count);
+            
             int random_gens1 = GA_GT.random.Next() % parents.getChromosomeSize();
             int random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
 
