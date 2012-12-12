@@ -32,38 +32,44 @@ namespace GA_SocialInteractions
         {
             population = new Population();
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
-            maxFitness = 1.0;
-            maxPayoff = gameModel.maxPayoff;
-
-            Console.WriteLine("Random population:");
 
             maxFitness = knapsackList.MaxFitness();     //maxFitness only calculated once (sum of the values of the objects)
+            maxPayoff = gameModel.maxPayoff;
+
+            population.Evaluation();
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
                 population.Sort();
                 population.getIndividual(0).ShowFitness();
+                
+                population.Show();
+                Console.ReadLine();
 
                 Population parents = population.TournamentSelection();
+                parents.Show();
+                Console.ReadLine();
                 Population offspring = population.UniformCrossover(parents);//population.TwoPointsCrossover(parents);
+                offspring.Show();
+                Console.ReadLine();
 
                 parents.Sort();
                 offspring.Sort();
 
                 // Another way of choosing the new generation:
+                //population.Clear();
+                //population.AddRange(parents);
+                //population.AddRange(offspring);
+                //population.Sort();
+                //population.RemoveRange(populationSize, population.Count - populationSize);
+
+                // TODO: number of cheaters should be less than a cheater rate? or some other value?
                 population.Clear();
-                population.AddRange(parents);
-                population.AddRange(offspring);
-                population.Sort();
-
-                population.RemoveRange(populationSize, population.Count - populationSize);
-
-                //// TODO: number of cheaters should be less than a cheater rate? or some other value?
-                //for (int i = 0; i < populationSize / 2; i++)
-                //{
-                //    population.Add(parents.getIndividual(i));
-                //    population.Add(offspring.getIndividual(i));
-                //}
+                for (int i = 0; i < populationSize / 2; i++)
+                {
+                    population.Add(parents.getIndividual(i));
+                    population.Add(offspring.getIndividual(i));
+                }
 
                 population.Mutation();
                 population.Evaluation();
