@@ -10,12 +10,13 @@ namespace GA_SocialInteractions
     {
         static void Main(string[] args)
         {
-            TestPopulation t = new TestPopulation();
-
             string path = @"..\..\samples\Simple.txt";
 
             KnapsackList knapsackList = InputOutput.ReadInput(path);
+            knapsackList.Show();
             init_static_GA_GT(knapsackList);
+
+            TestPopulation t = new TestPopulation();
 
             GA_GT ga_gt = new GA_GT();
             
@@ -37,7 +38,7 @@ namespace GA_SocialInteractions
             GA_GT.numberOfEpochs = 100000;
 
             GA_GT.chromosomeLength = InputOutput.objectsNumber;
-            GA_GT.populationSize = 6;
+            GA_GT.populationSize = 10;
 
             GA_GT.mutationRate = 1.0 / GA_GT.chromosomeLength;
 

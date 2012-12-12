@@ -27,8 +27,7 @@ namespace GA_SocialInteractions {
             this.population = p;
         }
 
-
-        public void Evaluation(Knapsack knapsack) 
+        public void Evaluation()
         {
             List<int> unused = new List<int>();
 
@@ -47,33 +46,27 @@ namespace GA_SocialInteractions {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
 
-
-                //double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack);
-          //      double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
-
-                // TODO: The way we call FitnessValue looks strange. It should be either static or simply FitnessValue(Knapsack k)
-                double value1 = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
-                double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(randomIndex).chromosome, GA_GT.knapsackList.knapsackList[0]);
+                double value1 = getIndividual(i).FitnessValue(getIndividual(randomIndex), GA_GT.knapsackList);
+                double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(i), GA_GT.knapsackList);
 
                 population[i].fitness = value1;
                 population[randomIndex].fitness = value2;
             }
         }
 
-        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize, Knapsack knapsack)
+        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize)
         {
             int numberOfCheaters = (int)(populationSize * cheaterRate);
 
-            for (int i = 0; i < populationSize; i++) {
-
-                Chromosome chromosome = new Chromosome(chromosomeSize, knapsack);
-
+            for (int i = 0; i < populationSize; i++)
+            {
+                Chromosome chromosome = new Chromosome(chromosomeSize);
 
                 Individual temp;
-                if (i < numberOfCheaters) 
-                    temp = new Individual(chromosome, false, (double) 0);   // cheater
+                if (i < numberOfCheaters)
+                    temp = new Individual(chromosome, false, (double)0, true);   // cheater
                 else
-                    temp = new Individual(chromosome, true, (double) 0);    // cooperator
+                    temp = new Individual(chromosome, true, (double)0, true);    // cooperator
 
                 population.Add(temp);
             }
@@ -179,52 +172,61 @@ namespace GA_SocialInteractions {
             return crossoverHelper(parents, random_gens1, random_gens2, permutation);
         }
 
-        public Population UniformCrossover(Population parents, Knapsack knapsack)
+        public Population UniformCrossover(Population parents)
         {
-            int[] permutation = generateRandomPairs(parents.Count);
-
+            
             Population offspring = new Population();
+            List<int> unused = new List<int>();
+
+            for (int i = 0; i < parents.Count; i++)
+            {
+                unused.Add(i);
+            }
+
             int chromosomeSize = getChromosomeSize();
 
-            for (int i = 0; i < population.Count; i++)
+            for (int i = 0; i < parents.Count; i++)
             {
-                if (permutation[i] <= i) continue;
+                if (!unused.Contains(i))
+                    continue;
+
+                unused.Remove(i);
+
+                int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
+                unused.Remove(randomIndex);
 
                 if (GA_GT.random.NextDouble() >= GA_GT.crossoverRate)
                 {
                     offspring.Add(parents.getIndividual(i));
-                    offspring.Add(parents.getIndividual(permutation[i]));
+                    offspring.Add(parents.getIndividual(randomIndex));
                 }
 
                 else
                 {
-                   // parents.getIndividual(i).Show();
-                   // parents.getIndividual(permutation[i]).Show();
-
-                    Chromosome ch1 = new Chromosome(chromosomeSize, knapsack);
-                    Chromosome ch2 = new Chromosome(chromosomeSize, knapsack);
+                    Chromosome ch1 = new Chromosome(chromosomeSize);
+                    Chromosome ch2 = new Chromosome(chromosomeSize);
 
                     for (int j = 0; j < chromosomeSize; j++)
                     {
                         if (GA_GT.random.NextDouble() < 0.5)
                         {
                             ch1[j] = parents.getIndividual(i)[j];
-                            ch2[j] = parents.getIndividual(permutation[i])[j];
+                            ch2[j] = parents.getIndividual(randomIndex)[j];
                         }
                         else
                         {
-                            ch1[j] = parents.getIndividual(permutation[i])[j];
+                            ch1[j] = parents.getIndividual(randomIndex)[j];
                             ch2[j] = parents.getIndividual(i)[j];
                         }
                     }
 
                     Individual ind1 = new Individual(ch1);
                     ind1.strategy = parents.getIndividual(i).strategy;
-                    ind1.fitness = ind1.FitnessValue(GA_GT.knapsackList.getKnapsack(0));
+                    ind1.Update(GA_GT.knapsackList);
 
                     Individual ind2 = new Individual(ch2);
-                    ind2.strategy = parents.getIndividual(permutation[i]).strategy;
-                    ind2.fitness = ind2.FitnessValue(GA_GT.knapsackList.getKnapsack(0));
+                    ind2.strategy = parents.getIndividual(randomIndex).strategy;
+                    ind2.Update(GA_GT.knapsackList);
 
                     offspring.Add(ind1);
                     offspring.Add(ind2);
@@ -248,6 +250,7 @@ namespace GA_SocialInteractions {
                         population[i].MutateGene(j);
                     }
                 }
+                population[i].Update(GA_GT.knapsackList);
             }
         }
 
