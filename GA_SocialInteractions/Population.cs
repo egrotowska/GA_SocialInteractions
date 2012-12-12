@@ -46,8 +46,9 @@ namespace GA_SocialInteractions {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
 
-                double value1 = getIndividual(i).FitnessValue(getIndividual(randomIndex), GA_GT.knapsackList);
-                double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(i), GA_GT.knapsackList);
+                // TODO: The way we call FitnessValue looks strange. It should be either static or simply FitnessValue(Knapsack k)
+                double value1 = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
+                double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(randomIndex).chromosome, GA_GT.knapsackList.knapsackList[0]);
 
                 population[i].fitness = value1;
                 population[randomIndex].fitness = value2;
@@ -63,9 +64,9 @@ namespace GA_SocialInteractions {
 
                 Individual temp;
                 if (i < numberOfCheaters) 
-                    temp = new Individual(chromosome, false, (double) 0, true);   // cheater
+                    temp = new Individual(chromosome, false, (double) 0);   // cheater
                 else
-                    temp = new Individual(chromosome, true, (double) 0, true);    // cooperator
+                    temp = new Individual(chromosome, true, (double) 0);    // cooperator
 
                 population.Add(temp);
             }
@@ -148,10 +149,6 @@ namespace GA_SocialInteractions {
             for (int i = 0; i < parents.Count / 2; i++)
             {
                 Tuple<Individual, Individual> children = crossover(parents.getIndividual(permutation[i]), parents.getIndividual(permutation[parents.Count - 1 - i]), random_gens1, random_gens2);
-
-                children.Item1.Update(GA_GT.knapsackList);
-                children.Item2.Update(GA_GT.knapsackList);
-
                 offsprings1.Add(children.Item1);
                 offsprings2.Add(children.Item2);
             }
@@ -194,6 +191,9 @@ namespace GA_SocialInteractions {
 
                 else
                 {
+                    parents.getIndividual(i).Show();
+                    parents.getIndividual(permutation[i]).Show();
+
                     Chromosome ch1 = new Chromosome(chromosomeSize);
                     Chromosome ch2 = new Chromosome(chromosomeSize);
 
@@ -213,11 +213,11 @@ namespace GA_SocialInteractions {
 
                     Individual ind1 = new Individual(ch1);
                     ind1.strategy = parents.getIndividual(i).strategy;
-                    ind1.Update(GA_GT.knapsackList);                    
+                    ind1.fitness = ind1.FitnessValue(GA_GT.knapsackList);
 
                     Individual ind2 = new Individual(ch2);
                     ind2.strategy = parents.getIndividual(permutation[i]).strategy;
-                    ind2.Update(GA_GT.knapsackList);
+                    ind2.fitness = ind2.FitnessValue(GA_GT.knapsackList);
 
                     offspring.Add(ind1);
                     offspring.Add(ind2);
@@ -241,7 +241,6 @@ namespace GA_SocialInteractions {
                         population[i].MutateGene(j);
                     }
                 }
-                population[i].Update(GA_GT.knapsackList);
             }
         }
 

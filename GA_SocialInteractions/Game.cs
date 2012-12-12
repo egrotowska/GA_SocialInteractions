@@ -37,7 +37,7 @@ namespace GA_SocialInteractions
         const double s1 = 0.4;
         const double s2 = 1.0;
         const double c = 0.2;
-        const double max = 2.0; // k + s2 ?
+        const double max = 20.0; //?
 
         public double cooperatorCooperatorPayoff
         {
