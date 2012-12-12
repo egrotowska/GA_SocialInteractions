@@ -30,7 +30,6 @@ namespace GA_SocialInteractions
 
         public Individual RunGA_GT()
         {
-            Console.WriteLine("blabla {0} {1} {2} ", cheaterRate, chromosomeLength, populationSize);
             knapsackList.getKnapsack(0).Show();
             population = new Population();
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize, knapsackList.getKnapsack(0));
@@ -39,33 +38,41 @@ namespace GA_SocialInteractions
             maxPayoff = gameModel.maxPayoff;
 
             maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
+
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
-
                 population.Sort();
-                for (int i = 0; i < population.Count; i++)
-                {
-                    population.getIndividual(i).ShowFitnessAndStrategy();
-                }
-                Console.ReadLine();
+
+             //   for (int i = 0; i < population.Count; i++)  population.getIndividual(i).ShowFitnessAndStrategy();
+
+
 
                 Population parents = population.TournamentSelection();
+                Population offspring = population.TwoPointsCrossover(parents);
 
-                Population offspring = population.TwoPointsCrossover(population);
 
                 parents.Sort();
                 offspring.Sort();
 
+                // Another way of choosing the new generation:
                 population.Clear();
+                population.AddRange(parents);
+                population.AddRange(offspring);
+                population.Sort();
 
-                for (int i = 0; i < populationSize / 2; i++)
-                {
-                    population.Add(parents.getIndividual(i));
-                    population.Add(offspring.getIndividual(i));
-                }
+                population.RemoveRange(populationSize, population.Count - populationSize);
+
+                //// TODO: number of cheaters should be less than a cheater rate? or some other value?
+                //for (int i = 0; i < populationSize / 2; i++)
+                //{
+                //    population.Add(parents.getIndividual(i));
+                //    population.Add(offspring.getIndividual(i));
+                //}
 
                 population.Mutation();
+
                 maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
+                population.getIndividual(0).ShowFitness();
             }
 
             population.Sort();

@@ -166,6 +166,7 @@ namespace GA_SocialInteractions {
             }
         }
 
+        // TODO: The way we call FitnessValue looks strange. It should be either static or simply FitnessValue(Knapsack k)
         public double FitnessValue(Chromosome chromosome, Knapsack knapsack)
         {
             if (chromosome.IsFeasible(knapsack))
@@ -231,5 +232,11 @@ namespace GA_SocialInteractions {
                 Console.WriteLine("defector " + fitness_);
             }
         }
+
+        public void ShowFitness()
+        {
+            Console.WriteLine(fitness_);
+        }
+
     }
 }

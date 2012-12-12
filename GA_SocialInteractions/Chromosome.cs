@@ -26,7 +26,7 @@ namespace GA_SocialInteractions {
 
             while (zeros.Count > 0)
             {
-                int index = GA_GT.random.Next() % zeros.Count;
+                int index = zeros[GA_GT.random.Next() % zeros.Count];
 
                 this.genes[index] = true;
 

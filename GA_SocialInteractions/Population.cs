@@ -47,14 +47,27 @@ namespace GA_SocialInteractions {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
 
-                //double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack);
-                double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
 
-                if (value > newMax)
+                //double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack);
+          //      double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+
+                // TODO: The way we call FitnessValue looks strange. It should be either static or simply FitnessValue(Knapsack k)
+                double value1 = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
+                double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(randomIndex).chromosome, GA_GT.knapsackList.knapsackList[0]);
+
+
+                if (value1 > newMax)
                 {
-                    newMax = value;
+                    newMax = value1;
                 }
-                population[i] = new Individual(getIndividual(i).chromosome, getIndividual(i).strategy, value);
+
+                if (value2 > newMax)
+                {
+                    newMax = value2;
+                }
+
+                population[i].fitness = value1;
+                population[randomIndex].fitness = value2;
             }
 
             return newMax;
@@ -65,7 +78,9 @@ namespace GA_SocialInteractions {
             int numberOfCheaters = (int)(populationSize * cheaterRate);
 
             for (int i = 0; i < populationSize; i++) {
+
                 Chromosome chromosome = new Chromosome(chromosomeSize, knapsack);
+
 
                 Individual temp;
                 if (i < numberOfCheaters) 
@@ -158,6 +173,7 @@ namespace GA_SocialInteractions {
             return offspring;
         }
 
+        // TODO: Maybe random_gens should be randomize for each pair separately?
         public Population TwoPointsCrossover(Population parents)
         {
             int[] permutation = generateRandomPairs(parents.Count);
@@ -180,8 +196,10 @@ namespace GA_SocialInteractions {
             {
                 for (int j = 0; j < chromosomeSize; j++)
                 {
-                    if (GA_GT.random.NextDouble() < GA_GT.mutationRate) 
+                    if (GA_GT.random.NextDouble() < GA_GT.mutationRate)
+                    {
                         population[i].MutateGene(j);
+                    }
                 }
             }
         }
@@ -218,7 +236,7 @@ namespace GA_SocialInteractions {
         {
             for (int i = 0; i < population.Count; i++)
             {
-                Console.Write(i + " ");  population[i].Show();
+                Console.Write(i + ") ");  population[i].Show();
             }
             Console.WriteLine();
         }
@@ -230,6 +248,16 @@ namespace GA_SocialInteractions {
                 return 0;
             else
                 return 1;
+        }
+
+        public void RemoveRange(int index, int count)
+        {
+            this.population.RemoveRange(index, count);
+        }
+
+        public void AddRange(Population population)
+        {
+            this.population.AddRange(population.population);
         }
     }
 }
