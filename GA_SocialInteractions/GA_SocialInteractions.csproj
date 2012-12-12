@@ -54,7 +54,6 @@
     <Compile Include="InputOutput.cs" />
     <Compile Include="Knapsack.cs" />
     <Compile Include="KnapsackList.cs" />
-    <Compile Include="samples\KnapsackSample.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +65,7 @@
     <Content Include="samples\mknap1.1.txt" />
     <Content Include="samples\MKSento1.txt" />
     <Content Include="samples\p08.txt" />
+    <Content Include="samples\Simple.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,7 +10,6 @@ namespace GA_SocialInteractions
 {
     static class InputOutput
     {
-        public static int NUMBER_OF_OBJECTS;
         /* 
         Format of the input file:
         <m := #knapsacks> <n := #objects>
@@ -20,6 +19,8 @@ namespace GA_SocialInteractions
  
         <known optimum> 
         */
+
+        public static int objectsNumber { get; set; }
 
         public static KnapsackList ReadInput(string path)
         {
@@ -49,7 +50,8 @@ namespace GA_SocialInteractions
 
                 int numberOfKnapsacks = inputInt[0];
                 int numberOfObjects = inputInt[1];
-                NUMBER_OF_OBJECTS = numberOfObjects;
+                objectsNumber = numberOfObjects;
+
                 int offset = 2;
                 int[] values = new int[numberOfObjects];
 
@@ -85,8 +87,16 @@ namespace GA_SocialInteractions
 
         private static KnapsackList makeKnapsackList(int[][] weights, int[] values, int[] constraints) {
             List<Knapsack> list = new List<Knapsack>();
-            if (weights.Count() != values.Count() || weights.Count() != constraints.Count()) {
-                //throw new ArgumentException("Error in making KnapsackList - maybe wrong input");
+
+            if (weights.Count() != constraints.Count()) {
+                    throw new ArgumentException("Error in making KnapsackList - maybe wrong input");
+            }
+            for (int i = 0; i < weights.Count(); i++)
+            {
+                if (weights[i].Count() != values.Count())
+                {
+                    throw new ArgumentException("Error in making KnapsackList - maybe wrong input");
+                }
             }
             for (int i = 0; i < weights.Count() ; i++) {
                 int[] weightsOneKnapsack = new int[weights[i].Count()];
@@ -95,7 +105,7 @@ namespace GA_SocialInteractions
                 }
                 list.Add(new Knapsack(weightsOneKnapsack, values, constraints[i]));
             }
-            return new KnapsackList(list); //here are validated for all i values[i].Count == weights[i].Count
+            return new KnapsackList(list);
         }
 
         public static void WriteOutput(string path, Individual ind)
@@ -118,6 +128,7 @@ namespace GA_SocialInteractions
                 sw.WriteLine();
             }
         }
+
     }
 
 }

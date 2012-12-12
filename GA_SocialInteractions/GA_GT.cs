@@ -30,22 +30,33 @@ namespace GA_SocialInteractions
 
         public Individual RunGA_GT()
         {
+            knapsackList.getKnapsack(0).Show();
             population = new Population();
-            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
+            population.RandomPopulation(cheaterRate, chromosomeLength, populationSize, knapsackList.getKnapsack(0));
+
             maxFitness = 1.0;
             maxPayoff = gameModel.maxPayoff;
+<<<<<<< HEAD
 
             Console.WriteLine("Random population:");
 
             maxFitness = knapsackList.MaxFitness();     //maxFitness only calculated once (sum of the values of the objects)
+=======
+
+            maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
+>>>>>>> temp_branch
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
                 population.Sort();
-                population.getIndividual(0).ShowFitness();
+
+             //   for (int i = 0; i < population.Count; i++)  population.getIndividual(i).ShowFitnessAndStrategy();
+
+
 
                 Population parents = population.TournamentSelection();
                 Population offspring = population.UniformCrossover(parents);//population.TwoPointsCrossover(parents);
+
 
                 parents.Sort();
                 offspring.Sort();
@@ -66,8 +77,13 @@ namespace GA_SocialInteractions
                 //}
 
                 population.Mutation();
+<<<<<<< HEAD
                 population.Evaluation();
+=======
+>>>>>>> temp_branch
 
+                maxFitness = population.Evaluation(knapsackList.getKnapsack(0));
+                population.getIndividual(0).ShowFitness();
             }
 
             population.Sort();

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GA_SocialInteractions.tests;
-using GA_SocialInteractions.knapsacks;
 
 namespace GA_SocialInteractions
 {
@@ -13,14 +12,15 @@ namespace GA_SocialInteractions
         {
             TestPopulation t = new TestPopulation();
 
-            string path = @"..\..\samples\mknap1.1.txt";
+            string path = @"..\..\samples\Simple.txt";
+
             KnapsackList knapsackList = InputOutput.ReadInput(path);
-            knapsackList.Show();
             init_static_GA_GT(knapsackList);
 
             GA_GT ga_gt = new GA_GT();
             
-            ga_gt.RunGA_GT(); 
+            ga_gt.RunGA_GT().Show();
+            Console.WriteLine("End");
             Console.ReadLine(); 
         }
 
@@ -34,11 +34,13 @@ namespace GA_SocialInteractions
             GA_GT.cheaterRate = 0.1;
             GA_GT.crossoverRate = 0.75;
 
-            GA_GT.numberOfEpochs = 100;
-            GA_GT.chromosomeLength = InputOutput.NUMBER_OF_OBJECTS; //values.Count  = weights.Count 
+            GA_GT.numberOfEpochs = 10000000;
+
+            GA_GT.chromosomeLength = InputOutput.objectsNumber;
             GA_GT.populationSize = 6;
 
             GA_GT.mutationRate = 1.0 / GA_GT.chromosomeLength;
+
         }
     }
 }

@@ -27,7 +27,11 @@ namespace GA_SocialInteractions {
             this.population = p;
         }
 
+<<<<<<< HEAD
         public void Evaluation() 
+=======
+        public double Evaluation(Knapsack knapsack) 
+>>>>>>> temp_branch
         {
             List<int> unused = new List<int>();
 
@@ -46,21 +50,41 @@ namespace GA_SocialInteractions {
                 int randomIndex = unused.ElementAt(GA_GT.random.Next() % unused.Count);
                 unused.Remove(randomIndex);
 
+
+                //double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack);
+          //      double value = getIndividual(i).FitnessValue(getIndividual(i).chromosome, knapsack, getIndividual(i).strategy, getIndividual(randomIndex).strategy);
+
                 // TODO: The way we call FitnessValue looks strange. It should be either static or simply FitnessValue(Knapsack k)
                 double value1 = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
                 double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(randomIndex).chromosome, GA_GT.knapsackList.knapsackList[0]);
 
+<<<<<<< HEAD
+=======
+
+                if (value1 > newMax)
+                {
+                    newMax = value1;
+                }
+
+                if (value2 > newMax)
+                {
+                    newMax = value2;
+                }
+
+>>>>>>> temp_branch
                 population[i].fitness = value1;
                 population[randomIndex].fitness = value2;
             }
         }
 
-        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize)
+        public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize, Knapsack knapsack)
         {
             int numberOfCheaters = (int)(populationSize * cheaterRate);
 
             for (int i = 0; i < populationSize; i++) {
-                Chromosome chromosome = new Chromosome(chromosomeSize);
+
+                Chromosome chromosome = new Chromosome(chromosomeSize, knapsack);
+
 
                 Individual temp;
                 if (i < numberOfCheaters) 
@@ -134,7 +158,6 @@ namespace GA_SocialInteractions {
         }
 
         protected Population crossoverHelper(Population parents, int random_gens1, int random_gens2, int[] permutation) {
-            //some magic to have right order in offspring -> offsprings1 for permutations from 0 to parents.count/2, offsprings2 for rest
             List<Individual> offsprings1 = new List<Individual>();
             List<Individual> offsprings2 = new List<Individual>();
             List<int> used = new List<int>();
@@ -162,6 +185,7 @@ namespace GA_SocialInteractions {
         public Population TwoPointsCrossover(Population parents)
         {
             int[] permutation = generateRandomPairs(parents.Count);
+            
             int random_gens1 = GA_GT.random.Next() % parents.getChromosomeSize();
             int random_gens2 = GA_GT.random.Next() % parents.getChromosomeSize();
 
