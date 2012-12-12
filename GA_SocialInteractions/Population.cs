@@ -27,11 +27,8 @@ namespace GA_SocialInteractions {
             this.population = p;
         }
 
-<<<<<<< HEAD
-        public void Evaluation() 
-=======
-        public double Evaluation(Knapsack knapsack) 
->>>>>>> temp_branch
+
+        public void Evaluation(Knapsack knapsack) 
         {
             List<int> unused = new List<int>();
 
@@ -58,20 +55,6 @@ namespace GA_SocialInteractions {
                 double value1 = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
                 double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(randomIndex).chromosome, GA_GT.knapsackList.knapsackList[0]);
 
-<<<<<<< HEAD
-=======
-
-                if (value1 > newMax)
-                {
-                    newMax = value1;
-                }
-
-                if (value2 > newMax)
-                {
-                    newMax = value2;
-                }
-
->>>>>>> temp_branch
                 population[i].fitness = value1;
                 population[randomIndex].fitness = value2;
             }
@@ -196,7 +179,7 @@ namespace GA_SocialInteractions {
             return crossoverHelper(parents, random_gens1, random_gens2, permutation);
         }
 
-        public Population UniformCrossover(Population parents)
+        public Population UniformCrossover(Population parents, Knapsack knapsack)
         {
             int[] permutation = generateRandomPairs(parents.Count);
 
@@ -215,11 +198,11 @@ namespace GA_SocialInteractions {
 
                 else
                 {
-                    parents.getIndividual(i).Show();
-                    parents.getIndividual(permutation[i]).Show();
+                   // parents.getIndividual(i).Show();
+                   // parents.getIndividual(permutation[i]).Show();
 
-                    Chromosome ch1 = new Chromosome(chromosomeSize);
-                    Chromosome ch2 = new Chromosome(chromosomeSize);
+                    Chromosome ch1 = new Chromosome(chromosomeSize, knapsack);
+                    Chromosome ch2 = new Chromosome(chromosomeSize, knapsack);
 
                     for (int j = 0; j < chromosomeSize; j++)
                     {
@@ -237,11 +220,11 @@ namespace GA_SocialInteractions {
 
                     Individual ind1 = new Individual(ch1);
                     ind1.strategy = parents.getIndividual(i).strategy;
-                    ind1.fitness = ind1.FitnessValue(GA_GT.knapsackList);
+                    ind1.fitness = ind1.FitnessValue(GA_GT.knapsackList.getKnapsack(0));
 
                     Individual ind2 = new Individual(ch2);
                     ind2.strategy = parents.getIndividual(permutation[i]).strategy;
-                    ind2.fitness = ind2.FitnessValue(GA_GT.knapsackList);
+                    ind2.fitness = ind2.FitnessValue(GA_GT.knapsackList.getKnapsack(0));
 
                     offspring.Add(ind1);
                     offspring.Add(ind2);

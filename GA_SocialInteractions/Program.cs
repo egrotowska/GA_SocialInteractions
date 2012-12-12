@@ -34,7 +34,7 @@ namespace GA_SocialInteractions
             GA_GT.cheaterRate = 0.1;
             GA_GT.crossoverRate = 0.75;
 
-            GA_GT.numberOfEpochs = 10000000;
+            GA_GT.numberOfEpochs = 100000;
 
             GA_GT.chromosomeLength = InputOutput.objectsNumber;
             GA_GT.populationSize = 6;

@@ -192,11 +192,9 @@ namespace GA_SocialInteractions {
             }
         }
 
-        public double FitnessValue(KnapsackList knapsackList)
+        public double FitnessValue(Knapsack knapsack)
         {
-            Knapsack knapsack = knapsackList[0];
-
-            if (chromosome.IsFeasible())
+            if (chromosome.IsFeasible(knapsack))
             {
                 double sum = 0.0;
                 for (int i = 0; i < chromosome.Count; i++)
