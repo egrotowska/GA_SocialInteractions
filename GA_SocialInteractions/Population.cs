@@ -27,10 +27,9 @@ namespace GA_SocialInteractions {
             this.population = p;
         }
 
-        public double Evaluation() 
+        public void Evaluation() 
         {
             List<int> unused = new List<int>();
-            double newMax = GA_GT.maxFitness;
 
             for (int i = 0; i < Count; i++)
             {
@@ -51,21 +50,9 @@ namespace GA_SocialInteractions {
                 double value1 = getIndividual(i).FitnessValue(getIndividual(i).chromosome, GA_GT.knapsackList.knapsackList[0]);
                 double value2 = getIndividual(randomIndex).FitnessValue(getIndividual(randomIndex).chromosome, GA_GT.knapsackList.knapsackList[0]);
 
-                if (value1 > newMax)
-                {
-                    newMax = value1;
-                }
-
-                if (value2 > newMax)
-                {
-                    newMax = value2;
-                }
-
                 population[i].fitness = value1;
                 population[randomIndex].fitness = value2;
             }
-
-            return newMax;
         }
 
         public void RandomPopulation(double cheaterRate, int chromosomeSize, int populationSize)
@@ -133,11 +120,15 @@ namespace GA_SocialInteractions {
 
         protected Tuple<Individual, Individual> crossover(Individual ind1, Individual ind2, int index1, int index2)
         {
-            for (int i = index1; i <= index2; i++)
+            // we forgot about crossover probability
+            if (GA_GT.random.NextDouble() < GA_GT.crossoverRate)
             {
-                bool temp = ind1.chromosome[i];
-                ind1.chromosome[i] = ind2.chromosome[i];
-                ind2.chromosome[i] = temp;
+                for (int i = index1; i <= index2; i++)
+                {
+                    bool temp = ind1.chromosome[i];
+                    ind1.chromosome[i] = ind2.chromosome[i];
+                    ind2.chromosome[i] = temp;
+                }
             }
             return new Tuple<Individual, Individual>(ind1, ind2); 
         }
@@ -181,6 +172,7 @@ namespace GA_SocialInteractions {
             return crossoverHelper(parents, random_gens1, random_gens2, permutation);
         }
         
+        // TODO: we shouldn't let mutation make number of non-feasible individuals in population too large
         public void Mutation() 
         {
             int chromosomeSize = getChromosomeSize();

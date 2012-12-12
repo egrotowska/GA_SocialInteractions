@@ -34,11 +34,10 @@ namespace GA_SocialInteractions
             population.RandomPopulation(cheaterRate, chromosomeLength, populationSize);
             maxFitness = 1.0;
             maxPayoff = gameModel.maxPayoff;
-            maxFitness = 1.0;
 
             Console.WriteLine("Random population:");
 
-            maxFitness = population.Evaluation();
+            maxFitness = knapsackList.MaxFitness();     //maxFitness only calculated once (sum of the values of the objects)
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
             {
@@ -67,7 +66,7 @@ namespace GA_SocialInteractions
                 //}
 
                 population.Mutation();
-                maxFitness = population.Evaluation();
+                population.Evaluation();
 
             }
 

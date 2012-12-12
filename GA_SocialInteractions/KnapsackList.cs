@@ -41,5 +41,17 @@ namespace GA_SocialInteractions
                 knapsackList_[i].Show();
             }
         }
+
+        public double MaxFitness()
+        {
+            double sum = 0.0;
+
+            for (int i = 0; i < knapsackList[0].NumberOfObjects; i++)
+            {
+                sum += knapsackList[0].values[i];
+            }
+
+            return sum;
+        }
     }
 }

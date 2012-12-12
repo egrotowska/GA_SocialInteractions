@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="samples\MK250.txt" />
+    <Content Include="samples\mknap1.1.txt" />
     <Content Include="samples\MKSento1.txt" />
     <Content Include="samples\p08.txt" />
   </ItemGroup>
