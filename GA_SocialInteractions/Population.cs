@@ -171,7 +171,62 @@ namespace GA_SocialInteractions {
             }
             return crossoverHelper(parents, random_gens1, random_gens2, permutation);
         }
-        
+
+        public Population UniformCrossover(Population parents)
+        {
+            int[] permutation = generateRandomPairs(parents.Count);
+
+            Population offspring = new Population();
+            int chromosomeSize = getChromosomeSize();
+
+            for (int i = 0; i < population.Count; i++)
+            {
+                if (permutation[i] <= i) continue;
+
+                if (GA_GT.random.NextDouble() >= GA_GT.crossoverRate)
+                {
+                    offspring.Add(parents.getIndividual(i));
+                    offspring.Add(parents.getIndividual(permutation[i]));
+                }
+
+                else
+                {
+                    parents.getIndividual(i).Show();
+                    parents.getIndividual(permutation[i]).Show();
+
+                    Chromosome ch1 = new Chromosome(chromosomeSize);
+                    Chromosome ch2 = new Chromosome(chromosomeSize);
+
+                    for (int j = 0; j < chromosomeSize; j++)
+                    {
+                        if (GA_GT.random.NextDouble() < 0.5)
+                        {
+                            ch1[j] = parents.getIndividual(i)[j];
+                            ch2[j] = parents.getIndividual(permutation[i])[j];
+                        }
+                        else
+                        {
+                            ch1[j] = parents.getIndividual(permutation[i])[j];
+                            ch2[j] = parents.getIndividual(i)[j];
+                        }
+                    }
+
+                    Individual ind1 = new Individual(ch1);
+                    ind1.strategy = parents.getIndividual(i).strategy;
+                    ind1.fitness = ind1.FitnessValue(GA_GT.knapsackList);
+
+                    Individual ind2 = new Individual(ch2);
+                    ind2.strategy = parents.getIndividual(permutation[i]).strategy;
+                    ind2.fitness = ind2.FitnessValue(GA_GT.knapsackList);
+
+                    offspring.Add(ind1);
+                    offspring.Add(ind2);
+                }
+            }
+
+            return offspring;
+        }
+
         // TODO: we shouldn't let mutation make number of non-feasible individuals in population too large
         public void Mutation() 
         {

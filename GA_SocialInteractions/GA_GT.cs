@@ -45,7 +45,7 @@ namespace GA_SocialInteractions
                 population.getIndividual(0).ShowFitness();
 
                 Population parents = population.TournamentSelection();
-                Population offspring = population.TwoPointsCrossover(parents);
+                Population offspring = population.UniformCrossover(parents);//population.TwoPointsCrossover(parents);
 
                 parents.Sort();
                 offspring.Sort();

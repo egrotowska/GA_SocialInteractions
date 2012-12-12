@@ -192,6 +192,33 @@ namespace GA_SocialInteractions {
             }
         }
 
+        public double FitnessValue(KnapsackList knapsackList)
+        {
+            Knapsack knapsack = knapsackList[0];
+
+            if (chromosome.IsFeasible())
+            {
+                double sum = 0.0;
+                for (int i = 0; i < chromosome.Count; i++)
+                {
+                    sum += chromosome[i] ? knapsack.GetValue(i) : 0.0;
+                }
+
+                return sum;
+            }
+            else
+            {
+                //double sum = 0.0;
+                //for (int i = 0; i < chromosome.Count; i++)
+                //{
+                //    sum += chromosome[i] ? knapsack.GetWeight(i) : 0.0;
+                //}
+
+                //return knapsack.constraint - sum;
+                return 0.0;
+            }
+        }
+
         public bool this[int i]
         {
             get { return chromosome[i]; }

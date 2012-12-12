@@ -53,5 +53,10 @@ namespace GA_SocialInteractions
 
             return sum;
         }
+
+        public Knapsack this[int i]
+        {
+            get { return knapsackList[i]; }
+        }
     }
 }
