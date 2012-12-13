@@ -115,7 +115,7 @@ namespace GA_SocialInteractions
             //StreamWriter(path) to overwrite the file, StreamWriter(path, true) to append
             using (StreamWriter sw = new StreamWriter(path, true))
             {
-                sw.Write(ind.fitness + " " + ind.strategy + " ");
+                sw.Write(ind.Value + " " + ind.fitness + " " + ind.strategy + " ");
 
                 for (int i = 0; i < ind.chromosome.Count; i++)
                 {

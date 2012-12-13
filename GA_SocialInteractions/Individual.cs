@@ -256,15 +256,23 @@ namespace GA_SocialInteractions {
             Console.WriteLine(fitness_);
         }
 
+        public double Value
+        {
+            get
+            {
+                double sum = 0.0;
+                for (int i = 0; i < this.chromosome.Count; i++)
+                {
+                    sum += this.chromosome[i] ? GA_GT.knapsackList[0].GetValue(i) : 0.0;
+                }
+
+                return sum;
+            }
+        }
+
         public void ShowValue()
         {
-            double sum = 0.0;
-            for (int i = 0; i < this.chromosome.Count; i++)
-            {
-                sum += this.chromosome[i] ? GA_GT.knapsackList[0].GetValue(i) : 0.0;
-            }
-
-            Console.WriteLine(sum);
+            Console.WriteLine(Value);
         }
 
         public void Update(KnapsackList knapsackList)
