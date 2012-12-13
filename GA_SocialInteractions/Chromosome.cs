@@ -13,6 +13,16 @@ namespace GA_SocialInteractions {
             get { return genes.Length; }
         }
 
+        public Chromosome(Chromosome c)
+        {
+            genes = new bool[c.Count];
+
+            for (int i = 0; i < c.Count; i++)
+            {
+                genes[i] = c[i];
+            }
+        }
+
         public Chromosome(int size)
         {
             this.genes = new bool[size];
