@@ -269,6 +269,17 @@ namespace GA_SocialInteractions {
             Console.WriteLine(fitness_);
         }
 
+        public void ShowValue()
+        {
+            double sum = 0.0;
+            for (int i = 0; i < this.chromosome.Count; i++)
+            {
+                sum += this.chromosome[i] ? GA_GT.knapsackList[0].GetValue(i) : 0.0;
+            }
+
+            Console.WriteLine(sum);
+        }
+
         public void Update(KnapsackList knapsackList)
         {
             isFeasible = chromosome.IsFeasible();
