@@ -74,10 +74,14 @@ namespace GA_SocialInteractions {
         }
 
 
-        public Population TournamentSelection() {
+        public Population TournamentSelection() 
+        {
             Population parents = new Population();
+            int nonFeasibleAllowed = (int)(Count * (1.0 - GA_GT.feasibleRate));
+            int nonFeasibleInParents = 0;
 
             while (parents.Count != Count) {
+
                 int x = GA_GT.random.Next() % Count;
                 int y = GA_GT.random.Next() % Count;
 
@@ -86,15 +90,44 @@ namespace GA_SocialInteractions {
                     y = GA_GT.random.Next() % Count;
                 }
 
+                Individual chosen = null;
                 if (getIndividual(x).fitness > getIndividual(y).fitness) 
                 {
-                    parents.Add(getIndividual(x));
-                } else 
+                    chosen = getIndividual(x);
+                } 
+                else 
                 {
-                    parents.Add(getIndividual(y));
+                    chosen = getIndividual(y);
                 }
+
+                if (!chosen.isFeasible)
+                {
+                    if (nonFeasibleInParents == nonFeasibleAllowed)
+                    {
+                        chosen = GetBestFeasible();
+                    }
+                    else
+                    {
+                        nonFeasibleInParents++;
+                    }
+                }
+
+                parents.Add(chosen);
             }
             return parents;
+        }
+
+        public Individual GetBestFeasible()
+        {
+            this.Sort();
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (population[i].isFeasible)
+                    return population[i];
+            }
+
+            throw new Exception("There is not a single feasible individual in the population");
         }
 
         private int[] generateRandomPairs(int numberOfIndividuals)
@@ -236,7 +269,6 @@ namespace GA_SocialInteractions {
             return offspring;
         }
 
-        // TODO: we shouldn't let mutation make number of non-feasible individuals in population too large
         public void Mutation() 
         {
             int chromosomeSize = getChromosomeSize();
@@ -271,7 +303,8 @@ namespace GA_SocialInteractions {
         }
 
         public void Add(Individual individual) {
-            population.Add(individual);
+            Individual i = new Individual(individual);
+            population.Add(i);
         }
 
         public void Clear() {
