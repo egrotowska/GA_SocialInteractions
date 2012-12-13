@@ -10,7 +10,7 @@ namespace GA_SocialInteractions
     {
         static void Main(string[] args)
         {
-            string path = @"..\..\samples\Simple.txt";
+            string path = @"..\..\samples\MK250.txt";
 
             KnapsackList knapsackList = InputOutput.ReadInput(path);
             knapsackList.Show();
@@ -30,17 +30,19 @@ namespace GA_SocialInteractions
             GA_GT.gameModel = new PrisonersDilemma();
             GA_GT.knapsackList = knapsackList;
             GA_GT.weightGA = 0.8;
-            GA_GT.weightGT = 0.2;
+            GA_GT.weightGT = 1.0 - GA_GT.weightGA;
             GA_GT.cheatingDegree = 50;
             GA_GT.cheaterRate = 0.1;
             GA_GT.crossoverRate = 0.75;
 
-            GA_GT.numberOfEpochs = 100000;
+            GA_GT.numberOfEpochs = 1000;
 
             GA_GT.chromosomeLength = InputOutput.objectsNumber;
-            GA_GT.populationSize = 10;
+            GA_GT.populationSize = 40;           // must be even number!!
 
             GA_GT.mutationRate = 1.0 / GA_GT.chromosomeLength;
+
+            GA_GT.feasibleRate = 0.2;
 
         }
     }

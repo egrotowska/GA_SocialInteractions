@@ -34,6 +34,12 @@ namespace GA_SocialInteractions
             set { values_ = value; }
         }
 
+        int maxValue_;
+        public int maxValue
+        {
+            get { return maxValue_; }
+        }
+
         public Knapsack(int[] weights, int[] values, int constraint)
         {
             this.weights_ = weights;
@@ -44,6 +50,15 @@ namespace GA_SocialInteractions
 
             if (values.Length != numberOfObjects)
                 throw new ArgumentException("Knapsack constructor: values");
+
+            int max = int.MinValue;
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (values[i] > max)
+                    max = values[i];
+            }
+
+            maxValue_ = max;
         }
 
         public int GetWeight(int i)
