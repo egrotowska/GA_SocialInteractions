@@ -309,6 +309,22 @@ namespace GA_SocialInteractions {
         {
             this.population.AddRange(population.population);
         }
+
+        public int NumberOfFeasible
+        {
+            get
+            {
+                int nof = 0;
+
+                foreach (Individual i in population)
+                {
+                    if (i.isFeasible)
+                        nof++;
+                }
+
+                return nof;
+            }
+        }
     }
 }
 
