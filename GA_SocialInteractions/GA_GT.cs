@@ -24,6 +24,8 @@ namespace GA_SocialInteractions
         public static double maxFitness;          // f^max
         public static double maxPayoff;           // delta f^max
 
+        public static double feasibleRate;        // part of the main population (and parents poulation) that must be feasible
+
         Population population;
 
         public static Random random = new Random();
@@ -39,19 +41,13 @@ namespace GA_SocialInteractions
             population.Evaluation();
 
             for (int epoch = 0; epoch < numberOfEpochs; epoch++)
-            {
-                population.Sort();
-                population.getIndividual(0).ShowFitness();
-
-                population.Show();
-                Console.ReadLine();
+            {            
 
                 Population parents = population.TournamentSelection();
-                parents.Show();
-                Console.ReadLine();
+
                 Population offspring = population.UniformCrossover(parents);//population.TwoPointsCrossover(parents);
-                offspring.Show();
-                Console.ReadLine();
+
+                offspring.Mutation();
 
                 parents.Sort();
                 offspring.Sort();
@@ -63,21 +59,60 @@ namespace GA_SocialInteractions
                 //population.Sort();
                 //population.RemoveRange(populationSize, population.Count - populationSize);
 
-                // TODO: number of cheaters should be less than a cheater rate? or some other value?
+                //// TODO: number of cheaters should be less than a cheater rate? or some other value?
+                //population.Clear();
+                //for (int i = 0; i < populationSize; i++)
+                //{
+                //    //population.Add(parents.getIndividual(i));
+                //    population.Add(offspring.getIndividual(i));
+                //}
+
                 population.Clear();
-                for (int i = 0; i < populationSize / 2; i++)
+                int nonFeasibleAllowed = (int)(populationSize * (1.0 - feasibleRate));
+                int nonFeasibleInPopulation = 0;
+
+                for (int i = 0; i < offspring.Count; i++)
                 {
-                    population.Add(parents.getIndividual(i));
-                    population.Add(offspring.getIndividual(i));
+                    if (!offspring.getIndividual(i).isFeasible)
+                    {
+                        if (nonFeasibleInPopulation == nonFeasibleAllowed)
+                            continue;
+
+                        else
+                        {
+                            population.Add(offspring.getIndividual(i));
+                            nonFeasibleInPopulation++;
+                        }
+                    }
+
+                    else
+                    {
+                        population.Add(offspring.getIndividual(i));
+                    }
                 }
 
-                population.Mutation();
+                if (population.Count < populationSize)
+                {
+                    for (int i = 0; i < parents.Count; i++)
+                    {
+                        if (population.Count == populationSize)
+                            break;
+
+                        if (parents.getIndividual(i).isFeasible)
+                            population.Add(parents.getIndividual(i));
+                    }
+                }
+
+                population.GetBestFeasible().ShowValue();
+
                 population.Evaluation();
 
             }
 
             population.Sort();
-            return population.getIndividual(0);
+            population.Show();
+            Console.ReadLine();
+            return population.GetBestFeasible();
         }
     }
 }
